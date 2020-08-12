@@ -20,12 +20,12 @@ const loginController = require('./controllers/login');
 const loginUserController = require('./controllers/loginUser');
 const logoutController = require('./controllers/logout');
 
+const getStudyItemsController = require('./controllers/getStudyItems');
+const postStudyItemController = require('./controllers/postStudyItem');
+
 
 
 const app = express();
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, './views'));
-app.use(express.static(path.join(__dirname, './public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
@@ -39,9 +39,7 @@ app.use("*", (req, res, next) => {
 });
 app.use(flash());
 
-  
-
-mongoose.connect('mongodb://localhost/my_database', {
+mongoose.connect('mongodb://localhost/study-app', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
@@ -52,23 +50,9 @@ app.listen(port, _ => {
   console.log(`App listening on port ${port}`);
 });
 
-app.get('/', homeController)
+app.get('/', (request, response) => response.json({ Version: '1.0' }));
 
-app.get('/post/:id', getPostController);
+app.get('/items', getStudyItemsController);
 
-app.get('/posts/new', authMiddleware, newPostController);
-
-app.post('/posts/store', authMiddleware, storePostController);
-
-app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController);
-
-app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController);
-
-app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
-
-app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController);
-
-app.get('/auth/logout', logoutController);
-
-app.use((req, res) => res.render('notfound'));
+app.post('/items', postStudyItemController);
 
