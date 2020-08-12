@@ -1,1 +1,26 @@
-<p>study-items-table works!</p>
+<button
+  mat-button
+  routerLink="/create"
+>
+  Create new
+</button>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let item of items">
+      <tr>
+        <th scope="row">{{item?._id}}</th>
+        <td>{{item?.title}}</td>
+        <td>{{item?.description}}</td>
+        <td>{{item?.source}}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

@@ -5,6 +5,8 @@ import { StudyItemsTableComponent } from './study-items-table/study-items-table.
 import { StudyItemEditComponent } from './study-item-edit/study-item-edit.component';
 import { StudyItemCreateComponent } from './study-item-create/study-item-create.component';
 import { StudyItemsRoutingModule } from './study-items-routing.module';
+import { SharedModule } from '././../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -17,7 +19,9 @@ import { StudyItemsRoutingModule } from './study-items-routing.module';
   ],
   imports: [
     CommonModule,
-    StudyItemsRoutingModule
+    SharedModule,
+    StudyItemsRoutingModule,
+    FormsModule
   ]
 })
 export class StudyItemsModule { }

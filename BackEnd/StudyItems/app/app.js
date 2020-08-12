@@ -1,11 +1,8 @@
 const express = require('express');
-const ejs = require('ejs');
-const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload');
-const expressSession = require('express-session');
-const flash = require('connect-flash');
+const cors = require('cors')
+
 
 const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware');
 const authMiddleware = require('./middleware/authMiddleware');
@@ -28,16 +25,12 @@ const postStudyItemController = require('./controllers/postStudyItem');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload());
-app.use(expressSession({
-  secret: 'keyboard cat'
-}));
-global.loggedIn = null;
-app.use("*", (req, res, next) => {
-  loggedIn = req.session.userId;
-  next();
-});
-app.use(flash());
+
+const corsConfig = {
+  origin: 'http://localhost:2223',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsConfig));
 
 mongoose.connect('mongodb://localhost/study-app', {
   useNewUrlParser: true,
@@ -54,5 +47,5 @@ app.get('/', (request, response) => response.json({ Version: '1.0' }));
 
 app.get('/items', getStudyItemsController);
 
-app.post('/items', postStudyItemController);
+app.post('/item', postStudyItemController);
 
