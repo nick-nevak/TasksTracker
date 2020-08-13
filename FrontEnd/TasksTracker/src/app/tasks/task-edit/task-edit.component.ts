@@ -30,9 +30,7 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
     this.activatedRoute.paramMap.pipe(
       tap(paramMap => {
         this.taskId = paramMap.get('id');
-        if (this.taskId) {
-          this.getTask(this.taskId);
-        }
+        this.taskId ? this.getTask(this.taskId) : undefined;
       }),
       takeUntil(this.componentAlive$)
     ).subscribe();

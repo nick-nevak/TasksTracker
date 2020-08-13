@@ -6,6 +6,7 @@ import { Task } from '../models/task';
 import { AppState } from '../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
 import { loadTasksSuccess, deleteTaskSuccess, loadTasks, deleteTask } from '../../core/core-store/tasks/tasks.actions';
+import { selectTasks, selectAreTasksLoaded } from '../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -15,29 +16,22 @@ import { Observable } from 'rxjs';
 })
 export class TasksTableComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
 
-  tasks$: Observable<Task[]>;
+  tasks$: Observable<Task[]> = this.store.select(selectTasks);
 
-  constructor(private store: Store<AppState>,
-              private tasksHttpService: TasksHttpService) {
+  constructor(private store: Store<AppState>) {
     super();
   }
 
   ngOnInit(): void {
-    this.tasks$ = this.store.select(s => s.tasksState.tasks);
     this.trackTasksLoadedStatus();
   }
 
   delete(task: Task): void {
-    // this.tasksHttpService.deleteTask(task._id)
-    //   .pipe(
-    //     tap(_ => this.store.dispatch(deleteTaskSuccess({ taskId: task._id })))
-    //   ).subscribe();
-
     this.store.dispatch(deleteTask({ taskId: task._id }));
   }
 
   private trackTasksLoadedStatus(): void {
-    this.store.select(s => s.tasksState.areTasksLoaded)
+    this.store.select(selectAreTasksLoaded)
       .pipe(
         tap(areLoaded => !areLoaded ? this.store.dispatch(loadTasks()) : undefined),
         takeUntil(this.componentAlive$)
