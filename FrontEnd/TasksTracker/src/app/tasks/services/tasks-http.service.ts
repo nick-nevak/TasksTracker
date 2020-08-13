@@ -53,7 +53,8 @@ export class TasksHttpService {
   deleteTask(taskId: string): Observable<any> {
     return this.httpClient.delete(`${taskUrl}/${taskId}`)
       .pipe(
-        tap(task => console.log('deleted taskId:', taskId))
+        tap(_ => console.log('deleted taskId:', taskId)),
+        map(_ => taskId)
       );
   }
 

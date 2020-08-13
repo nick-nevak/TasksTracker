@@ -5,6 +5,9 @@ import { takeUntil, tap, catchError } from 'rxjs/operators';
 import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
 import { of } from 'rxjs';
 import { TasksHttpService } from '../services/tasks-http.service';
+import { AppState } from '../../core/core-store/core-store.module';
+import { Store } from '@ngrx/store';
+import { createTaskSuccess, updateTaskSuccess, createTask, updateTask } from '../../core/core-store/tasks/tasks.actions';
 
 @Component({
   selector: 'app-task-edit',
@@ -16,9 +19,10 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
   task: Task;
   taskId: string;
 
-  constructor(private tasksHttpService: TasksHttpService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router) {
+  constructor(private store: Store<AppState>,
+              private tasksHttpService: TasksHttpService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router) {
     super();
   }
 
@@ -55,25 +59,11 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
   }
 
   private createTask(task: Task): void {
-    this.tasksHttpService.createTask(task)
-      .pipe(
-        tap(_ => this.router.navigate(['/'])),
-        catchError(e => {
-          console.error(e);
-          return of(undefined);
-        })
-      ).subscribe();
+    this.store.dispatch(createTask({ task }));
   }
 
   private updateTask(task: Task): void {
-    this.tasksHttpService.updateTask(task)
-      .pipe(
-        tap(_ => this.router.navigate(['/'])),
-        catchError(e => {
-          console.error(e);
-          return of(undefined);
-        })
-      ).subscribe();
+    this.store.dispatch(updateTask({ task }));
   }
 
 }

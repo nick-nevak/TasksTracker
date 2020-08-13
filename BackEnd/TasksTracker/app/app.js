@@ -24,7 +24,8 @@ app.use(cors(corsConfig));
 mongoose.connect('mongodb://localhost/study-app', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useFindAndModify: false
 });
 
 const port = 3001;

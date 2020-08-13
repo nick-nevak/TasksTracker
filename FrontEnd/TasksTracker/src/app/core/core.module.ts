@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
+import { CoreStoreModule } from './core-store/core-store.module';
 
 @NgModule({
-  declarations: [],
   imports: [
-    CommonModule
+    CoreStoreModule
+  ],
+  exports: [
+    CoreStoreModule
   ]
 })
 export class CoreModule { }

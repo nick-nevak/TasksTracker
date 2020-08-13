@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let task of tasks">
+    <ng-container *ngFor="let task of (tasks$ | async)">
       <tr>
         <th scope="row">{{task?._id}}</th>
         <td>{{task?.title}}</td>
