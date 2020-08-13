@@ -1,0 +1,41 @@
+<div class="container">
+  <div>
+    <mat-form-field appearance="standard">
+      <mat-label>Title</mat-label>
+      <input
+        [(ngModel)]="task.title"
+        matInput
+        placeholder="Placeholder"
+        autocomplete="off"
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="standard">
+      <mat-label>Description</mat-label>
+      <input
+        [(ngModel)]="task.description"
+        matInput
+        placeholder="Placeholder"
+        autocomplete="off"
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="standard">
+      <mat-label>Source</mat-label>
+      <input
+        [(ngModel)]="task.source"
+        matInput
+        placeholder="Placeholder"
+        autocomplete="off"
+      >
+    </mat-form-field>
+  </div>
+  <button
+    mat-button
+    (click)="save(task)"
+  >
+    Save
+  </button>
+</div>
