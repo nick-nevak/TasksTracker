@@ -17,8 +17,11 @@ const loginController = require('./controllers/login');
 const loginUserController = require('./controllers/loginUser');
 const logoutController = require('./controllers/logout');
 
-const getStudyItemsController = require('./controllers/getStudyItems');
-const postStudyItemController = require('./controllers/postStudyItem');
+const getStudyItemController = require('./controllers/studyItem/getStudyItem');
+const getStudyItemsController = require('./controllers/studyItem/getStudyItems');
+const postStudyItemController = require('./controllers/studyItem/postStudyItem');
+const putStudyItemController = require('./controllers/studyItem/putStudyItem');
+const deleteStudyItemController = require('./controllers/studyItem/deleteStudyItem');
 
 
 
@@ -45,7 +48,13 @@ app.listen(port, _ => {
 
 app.get('/', (request, response) => response.json({ Version: '1.0' }));
 
+app.get('/item/:id', getStudyItemController);
+
 app.get('/items', getStudyItemsController);
 
 app.post('/item', postStudyItemController);
+
+app.put('/item/:id', putStudyItemController);
+
+app.delete('/item/:id', deleteStudyItemController);
 

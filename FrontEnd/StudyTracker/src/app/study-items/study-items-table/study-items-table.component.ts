@@ -27,7 +27,7 @@ export class StudyItemsTableComponent extends BaseDestroyableComponent implement
   delete(item: StudyItem) {
     this.studyItemsHttpService.deleteItem(item._id)
       .pipe(
-        tap(_ => this.items.filter(i => i._id !== item._id))
+        tap(_ => this.items = this.items.filter(i => i._id !== item._id))
       ).subscribe();
   }
 

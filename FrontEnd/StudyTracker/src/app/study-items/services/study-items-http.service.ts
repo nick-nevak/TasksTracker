@@ -43,7 +43,7 @@ export class StudyItemsHttpService {
   }
 
   updateItem(studyItem: StudyItem): Observable<StudyItem> {
-    return this.httpClient.put(itemUrl, studyItem)
+    return this.httpClient.put(`${itemUrl}/${studyItem._id}`, studyItem)
       .pipe(
         map(item => item as StudyItem),
         tap(item => console.log('updated item:', item))

@@ -25,14 +25,17 @@ export class StudyItemEditComponent extends BaseDestroyableComponent implements 
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.pipe(
-      tap(paramMap => this.itemId = paramMap.get('id')),
+      tap(paramMap => {
+        this.itemId = paramMap.get('id');
+      }),
       tap(_ => this.getItem(this.itemId)),
       takeUntil(this.componentAlive$)
-    );
+    ).subscribe();
     this.initializeFormModel();
   }
 
   save(item: StudyItem) {
+    debugger;
     this.itemId ? this.updateItem(item) : this.createItem(item);
   }
 
