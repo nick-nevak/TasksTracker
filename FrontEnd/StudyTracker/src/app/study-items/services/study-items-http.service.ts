@@ -16,8 +16,8 @@ export class StudyItemsHttpService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getItem(): Observable<StudyItem> {
-    return this.httpClient.get(itemUrl)
+  getItem(itemId: string): Observable<StudyItem> {
+    return this.httpClient.get(`${itemUrl}/${itemId}`)
       .pipe(
         map(item => item as StudyItem),
         tap(item => console.log('item:', item)
@@ -39,6 +39,21 @@ export class StudyItemsHttpService {
       .pipe(
         map(item => item as StudyItem),
         tap(item => console.log('created item:', item))
+      );
+  }
+
+  updateItem(studyItem: StudyItem): Observable<StudyItem> {
+    return this.httpClient.put(itemUrl, studyItem)
+      .pipe(
+        map(item => item as StudyItem),
+        tap(item => console.log('updated item:', item))
+      );
+  }
+
+  deleteItem(itemId: string): Observable<any> {
+    return this.httpClient.delete(`${itemUrl}/${itemId}`)
+      .pipe(
+        tap(item => console.log('deleted itemId:', itemId))
       );
   }
 

@@ -20,8 +20,14 @@ export class StudyItemsTableComponent extends BaseDestroyableComponent implement
   ngOnInit(): void {
     this.studyItemsHttpService.getItems()
       .pipe(
-        tap(items => this.items = items),
-        takeUntil(this.componentAlive$)
+        tap(items => this.items = items)
+      ).subscribe();
+  }
+
+  delete(item: StudyItem) {
+    this.studyItemsHttpService.deleteItem(item._id)
+      .pipe(
+        tap(_ => this.items.filter(i => i._id !== item._id))
       ).subscribe();
   }
 

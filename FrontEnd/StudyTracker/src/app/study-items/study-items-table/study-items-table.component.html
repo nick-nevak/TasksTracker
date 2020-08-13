@@ -11,6 +11,7 @@
       <th scope="col">Title</th>
       <th scope="col">Description</th>
       <th scope="col">Source</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +21,20 @@
         <td>{{item?.title}}</td>
         <td>{{item?.description}}</td>
         <td>{{item?.source}}</td>
+        <td>
+          <button
+            mat-button
+            routerLink="/edit/{{item._id}}"
+          >
+            Edit
+          </button>
+          <button
+            mat-button
+            (click)="delete(item)"
+          >
+            Delete
+          </button>
+        </td>
       </tr>
     </ng-container>
   </tbody>
