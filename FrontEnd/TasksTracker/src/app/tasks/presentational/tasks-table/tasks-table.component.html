@@ -1,10 +1,4 @@
 <div class="row">
-  <button
-    mat-button
-    routerLink="/create"
-  >
-    Create new
-  </button>
   <table class="table">
     <thead>
       <tr>
@@ -16,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let task of (tasks$ | async)">
+      <ng-container *ngFor="let task of tasks">
         <tr>
           <th scope="row">{{task?._id}}</th>
           <td>{{task?.title}}</td>
@@ -25,7 +19,7 @@
           <td>
             <button
               mat-button
-              routerLink="/edit/{{task._id}}"
+              (click)="edit(task)"
             >
               Edit
             </button>

@@ -1,7 +1,4 @@
-<form
-  [formGroup]="taskForm"
-  (ngSubmit)="onSubmit()"
->
+<form [formGroup]="taskForm">
   <div class="row row-cols-2 mt-5">
     <mat-form-field
       class="col"
@@ -41,21 +38,22 @@
     </mat-form-field>
   </div>
 
-<div class="row justify-content-end">
-  <div class="col-3">
-    <button
-      mat-button
-      type="submit" 
-      [disabled]="!taskForm.valid"
-    >
-      Save
-    </button>
-    <button
-      mat-button
-    >
-      Cancel
-    </button>
+  <div class="row justify-content-end">
+    <div class="col-3">
+      <button
+        mat-button
+        (click)="onSubmit()"
+        [disabled]="!taskForm.valid"
+      >
+        Save
+      </button>
+      <button
+        mat-button
+        (click)="cancelChanges()"
+      >
+        Cancel
+      </button>
+    </div>
   </div>
-</div>
 
 </form>

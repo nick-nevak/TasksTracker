@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TasksComponent } from './tasks.component';
-import { TasksTableComponent } from './tasks-table/tasks-table.component';
-import { TaskEditComponent } from './task-edit/task-edit.component';
+import { TasksListComponent } from './container/tasks-list/tasks-list.component';
+import { TaskEditComponent } from './container/task-edit/task-edit.component';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        component: TasksTableComponent
+        component: TasksListComponent
       },
       {
         path: 'create',

@@ -1,0 +1,11 @@
+<button
+  mat-button
+  routerLink="/create"
+>
+  Create new
+</button>
+<app-tasks-table
+  [tasks]="tasks$ | async"
+  (taskEdited)="onTaskEdited($event)"
+  (taskDeleted)="onTaskDeleted($event)"
+></app-tasks-table>

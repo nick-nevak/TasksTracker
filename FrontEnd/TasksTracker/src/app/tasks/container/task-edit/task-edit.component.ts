@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Task } from '../models/task';
+import { Task } from '../../models/task';
 import { takeUntil, tap, catchError, filter } from 'rxjs/operators';
 import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
-import { of, from } from 'rxjs';
-import { TasksHttpService } from '../services/tasks-http.service';
-import { AppState } from '../../core/core-store/core-store.module';
+import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
-import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, selectTask } from '../../core/core-store/tasks/tasks.actions';
-import { selectSelectedTask } from '../../core/core-store/tasks/tasks.selectors';
+import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, selectTask } from '../../../core/core-store/tasks/tasks.actions';
+import { selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -19,6 +17,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class TaskEditComponent extends BaseDestroyableComponent implements OnInit {
 
   taskForm: FormGroup;
+  originalTaskValue: Task;
   taskId: string;
 
   constructor(private store: Store<AppState>,
@@ -41,6 +40,10 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
     } else {
       this.createTask(task);
     }
+  }
+
+  cancelChanges(): void {
+    this.taskForm.patchValue(this.originalTaskValue);
   }
 
   private createForm(): void {
@@ -78,6 +81,7 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
       .pipe(
         filter(task => !!task),
         tap(task => this.taskForm.patchValue(task)),
+        tap(task => this.originalTaskValue = task),
         takeUntil(this.componentAlive$)
       ).subscribe();
   }
