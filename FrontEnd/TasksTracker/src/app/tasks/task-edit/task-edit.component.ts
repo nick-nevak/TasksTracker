@@ -3,12 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Task } from '../models/task';
 import { takeUntil, tap, catchError, filter } from 'rxjs/operators';
 import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
-import { of } from 'rxjs';
+import { of, from } from 'rxjs';
 import { TasksHttpService } from '../services/tasks-http.service';
 import { AppState } from '../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
 import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, selectTask } from '../../core/core-store/tasks/tasks.actions';
 import { selectSelectedTask } from '../../core/core-store/tasks/tasks.selectors';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-task-edit',
@@ -17,45 +18,41 @@ import { selectSelectedTask } from '../../core/core-store/tasks/tasks.selectors'
 })
 export class TaskEditComponent extends BaseDestroyableComponent implements OnInit {
 
-  task: Task;
+  taskForm: FormGroup;
   taskId: string;
 
   constructor(private store: Store<AppState>,
-              private tasksHttpService: TasksHttpService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) {
+              private fb: FormBuilder) {
     super();
   }
 
   ngOnInit(): void {
-    this.initializeFormModel();
+    this.createForm();
     this.trackTaskId();
+    this.trackSelectedTask();
   }
 
-  save(task: Task): void {
-    this.taskId ? this.updateTask(task) : this.createTask(task);
+  onSubmit(): void {
+    const task: Task = this.taskForm.value;
+    if (this.taskId) {
+      task._id = this.taskId;
+      this.updateTask(task);
+    } else {
+      this.createTask(task);
+    }
   }
 
-  private initializeFormModel(): void {
-    this.task = {
+  private createForm(): void {
+    this.taskForm = this.fb.group({
       title: '',
       description: '',
       source: ''
-    } as Task;
+    });
   }
 
   private getTask(taskId: string): void {
-    // this.tasksHttpService.getTask(taskId)
-    //   .pipe(
-    //     tap(task => this.task = task)
-    //   ).subscribe();
     this.store.dispatch(selectTask({ taskId }));
-    this.store.select(selectSelectedTask)
-      .pipe(
-        filter(task => !!task),
-        tap(task => this.task = task),
-        takeUntil(this.componentAlive$)
-      ).subscribe();
   }
 
   private createTask(task: Task): void {
@@ -74,6 +71,15 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
       }),
       takeUntil(this.componentAlive$)
     ).subscribe();
+  }
+
+  private trackSelectedTask(): void {
+    this.store.select(selectSelectedTask)
+      .pipe(
+        filter(task => !!task),
+        tap(task => this.taskForm.patchValue(task)),
+        takeUntil(this.componentAlive$)
+      ).subscribe();
   }
 
 }

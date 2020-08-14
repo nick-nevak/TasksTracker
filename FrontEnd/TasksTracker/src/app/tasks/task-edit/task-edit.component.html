@@ -1,47 +1,52 @@
-<div class="row row-cols-2 mt-5">
-  <mat-form-field
-    class="col"
-    appearance="standard"
-  >
-    <mat-label>Title</mat-label>
-    <input
-      [(ngModel)]="task.title"
-      matInput
-      placeholder="Placeholder"
-      autocomplete="off"
+<form
+  [formGroup]="taskForm"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="row row-cols-2 mt-5">
+    <mat-form-field
+      class="col"
+      appearance="standard"
     >
-  </mat-form-field>
-  <mat-form-field
-    class="col"
-    appearance="standard"
-  >
-    <mat-label>Description</mat-label>
-    <input
-      [(ngModel)]="task.description"
-      matInput
-      placeholder="Placeholder"
-      autocomplete="off"
+      <mat-label>Title</mat-label>
+      <input
+        formControlName="title"
+        matInput
+        placeholder="Placeholder"
+        autocomplete="off"
+      >
+    </mat-form-field>
+    <mat-form-field
+      class="col"
+      appearance="standard"
     >
-  </mat-form-field>
-  <mat-form-field
-    class="col"
-    appearance="standard"
-  >
-    <mat-label>Source</mat-label>
-    <input
-      [(ngModel)]="task.source"
-      matInput
-      placeholder="Placeholder"
-      autocomplete="off"
+      <mat-label>Description</mat-label>
+      <input
+        formControlName="description"
+        matInput
+        placeholder="Placeholder"
+        autocomplete="off"
+      >
+    </mat-form-field>
+    <mat-form-field
+      class="col"
+      appearance="standard"
     >
-  </mat-form-field>
-</div>
+      <mat-label>Source</mat-label>
+      <input
+        formControlName="source"
+        matInput
+        placeholder="Placeholder"
+        autocomplete="off"
+      >
+    </mat-form-field>
+  </div>
 
 <div class="row justify-content-end">
   <div class="col-3">
     <button
       mat-button
-      (click)="save(task)"
+      type="submit" 
+      [disabled]="!taskForm.valid"
     >
       Save
     </button>
@@ -52,3 +57,5 @@
     </button>
   </div>
 </div>
+
+</form>
