@@ -18,7 +18,6 @@ import { Observable } from 'rxjs';
 export class TaskEditComponent extends BaseDestroyableComponent implements OnInit {
 
   task$: Observable<Task> = this.store.select(selectSelectedTask);
-  taskForm: FormGroup;
   taskId: string;
 
   constructor(private store: Store<AppState>,
@@ -29,30 +28,30 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.createForm();
     this.trackTaskId();
   }
 
-  onSubmit(): void {
-    const task: Task = this.taskForm.value;
+  onFormSubmitted(formValue): void {
     if (this.taskId) {
-      task._id = this.taskId;
-      this.updateTask(task);
+      formValue._id = this.taskId;
+      this.updateTask(formValue);
     } else {
-      this.createTask(task);
+      this.createTask(formValue);
     }
   }
 
-  cancelChanges(): void {
+  onFormCancelled(): void {
     this.router.navigate(['../']);
   }
 
-  private createForm(): void {
-    this.taskForm = this.fb.group({
-      title: '',
-      description: '',
-      source: ''
-    });
+  private trackTaskId(): void {
+    this.activatedRoute.paramMap.pipe(
+      tap(paramMap => {
+        this.taskId = paramMap.get('id');
+        this.taskId ? this.getTask(this.taskId) : undefined;
+      }),
+      takeUntil(this.componentAlive$)
+    ).subscribe();
   }
 
   private getTask(taskId: string): void {
@@ -65,16 +64,6 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
 
   private updateTask(task: Task): void {
     this.store.dispatch(updateTask({ task }));
-  }
-
-  private trackTaskId(): void {
-    this.activatedRoute.paramMap.pipe(
-      tap(paramMap => {
-        this.taskId = paramMap.get('id');
-        this.taskId ? this.getTask(this.taskId) : undefined;
-      }),
-      takeUntil(this.componentAlive$)
-    ).subscribe();
   }
 
 }

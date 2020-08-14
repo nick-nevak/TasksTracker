@@ -1,0 +1,61 @@
+<form
+  [formGroup]="taskForm"
+>
+  <div class="row row-cols-2 mt-5">
+    <mat-form-field
+      class="col"
+      appearance="standard"
+    >
+      <mat-label>Title</mat-label>
+      <input
+        formControlName="title"
+        matInput
+        placeholder="Placeholder"
+        autocomplete="off"
+      >
+    </mat-form-field>
+    <mat-form-field
+      class="col"
+      appearance="standard"
+    >
+      <mat-label>Description</mat-label>
+      <input
+        formControlName="description"
+        matInput
+        placeholder="Placeholder"
+        autocomplete="off"
+      >
+    </mat-form-field>
+    <mat-form-field
+      class="col"
+      appearance="standard"
+    >
+      <mat-label>Source</mat-label>
+      <input
+        formControlName="source"
+        matInput
+        placeholder="Placeholder"
+        autocomplete="off"
+      >
+    </mat-form-field>
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-3">
+      <button
+        mat-button
+        (click)="submit()"
+        [disabled]="!taskForm.valid"
+      >
+        Save
+      </button>
+      <button
+        mat-button
+        (click)="cancelChanges()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+
+</form>

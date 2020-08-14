@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TasksListComponent } from './container/tasks-list/tasks-list.component';
 import { TaskEditComponent } from './container/task-edit/task-edit.component';
 import { TasksTableComponent } from './presentational/tasks-table/tasks-table.component';
+import { TaskEditFormComponent } from './presentational/task-edit-form/task-edit-form.component';
 
 
 
@@ -15,7 +16,8 @@ import { TasksTableComponent } from './presentational/tasks-table/tasks-table.co
     TasksComponent,
     TasksListComponent,
     TaskEditComponent,
-    TasksTableComponent
+    TasksTableComponent,
+    TaskEditFormComponent
   ],
   imports: [
     CommonModule,
