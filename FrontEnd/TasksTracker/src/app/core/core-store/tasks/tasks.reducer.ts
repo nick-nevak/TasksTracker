@@ -5,6 +5,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 export interface TasksState extends EntityState<Task> {
   areTasksLoaded: boolean;
+  selectedTask: Task;
 }
 
 export const tasksAdapter: EntityAdapter<Task> = createEntityAdapter<Task>({
@@ -12,7 +13,8 @@ export const tasksAdapter: EntityAdapter<Task> = createEntityAdapter<Task>({
 });
 
 const initialState: TasksState = tasksAdapter.getInitialState({
-  areTasksLoaded: false
+  areTasksLoaded: false,
+  selectedTask: null
 });
 
 const reducer = createReducer(
@@ -28,6 +30,9 @@ const reducer = createReducer(
   }),
   on(TasksActions.deleteTaskSuccess, (state, { taskId }) => {
     return tasksAdapter.removeOne(taskId, state);
+  }),
+  on(TasksActions.selectTaskSuccess, (state, { task }) => {
+    return { ...state, selectedTask: task };
   })
 );
 

@@ -1,41 +1,43 @@
-<button
-  mat-button
-  routerLink="/create"
->
-  Create new
-</button>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Id</th>
-      <th scope="col">Title</th>
-      <th scope="col">Description</th>
-      <th scope="col">Source</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngFor="let task of (tasks$ | async)">
+<div class="row">
+  <button
+    mat-button
+    routerLink="/create"
+  >
+    Create new
+  </button>
+  <table class="table">
+    <thead>
       <tr>
-        <th scope="row">{{task?._id}}</th>
-        <td>{{task?.title}}</td>
-        <td>{{task?.description}}</td>
-        <td>{{task?.source}}</td>
-        <td>
-          <button
-            mat-button
-            routerLink="/edit/{{task._id}}"
-          >
-            Edit
-          </button>
-          <button
-            mat-button
-            (click)="delete(task)"
-          >
-            Delete
-          </button>
-        </td>
+        <th scope="col">Id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Source</th>
+        <th scope="col">Actions</th>
       </tr>
-    </ng-container>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let task of (tasks$ | async)">
+        <tr>
+          <th scope="row">{{task?._id}}</th>
+          <td>{{task?.title}}</td>
+          <td>{{task?.description}}</td>
+          <td>{{task?.source}}</td>
+          <td>
+            <button
+              mat-button
+              routerLink="/edit/{{task._id}}"
+            >
+              Edit
+            </button>
+            <button
+              mat-button
+              (click)="delete(task)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

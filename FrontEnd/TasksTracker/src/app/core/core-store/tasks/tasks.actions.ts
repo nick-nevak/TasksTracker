@@ -9,6 +9,8 @@ const UPDATE = '[Task] UPDATE';
 const UPDATE_SUCCESS = '[Task] UPDATE_SUCCESS';
 const DELETE = '[Task] DELETE';
 const DELETE_SUCCESS = '[Task] DELETE_SUCCESS';
+const SELECT = '[Task] SELECT';
+const SELECT_SUCCESS = '[Task] SELECT_SUCCESS';
 
 export const loadTasks = createAction(
   LOAD
@@ -47,6 +49,16 @@ export const deleteTask = createAction(
 export const deleteTaskSuccess = createAction(
   DELETE_SUCCESS,
   props<{taskId: string}>()
+);
+
+export const selectTask = createAction(
+  SELECT,
+  props<{taskId: string}>()
+);
+
+export const selectTaskSuccess = createAction(
+  SELECT_SUCCESS,
+  props<{task: Task}>()
 );
 
 

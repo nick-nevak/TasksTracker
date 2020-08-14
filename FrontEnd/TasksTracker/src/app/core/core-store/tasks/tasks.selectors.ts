@@ -23,3 +23,8 @@ export const selectAreTasksLoaded = createSelector(
   (state: TasksState) => state.areTasksLoaded
 );
 
+export const selectSelectedTask = createSelector(
+  selectTasksState,
+  (state: TasksState) => state.selectedTask
+);
+

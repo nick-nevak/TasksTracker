@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TasksComponent } from './tasks.component';
 import { TasksRoutingModule } from './tasks-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TasksTableComponent } from './tasks-table/tasks-table.component';
 import { TaskEditComponent } from './task-edit/task-edit.component';
 
@@ -19,7 +19,8 @@ import { TaskEditComponent } from './task-edit/task-edit.component';
     CommonModule,
     SharedModule,
     TasksRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class TasksModule { }
