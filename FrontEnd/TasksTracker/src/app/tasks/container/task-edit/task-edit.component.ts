@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, selectTask } from '../../../core/core-store/tasks/tasks.actions';
 import { selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-task-edit',
@@ -16,12 +17,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class TaskEditComponent extends BaseDestroyableComponent implements OnInit {
 
+  task$: Observable<Task> = this.store.select(selectSelectedTask);
   taskForm: FormGroup;
-  originalTaskValue: Task;
   taskId: string;
 
   constructor(private store: Store<AppState>,
               private activatedRoute: ActivatedRoute,
+              private router: Router,
               private fb: FormBuilder) {
     super();
   }
@@ -29,7 +31,6 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
   ngOnInit(): void {
     this.createForm();
     this.trackTaskId();
-    this.trackSelectedTask();
   }
 
   onSubmit(): void {
@@ -43,7 +44,7 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
   }
 
   cancelChanges(): void {
-    this.taskForm.patchValue(this.originalTaskValue);
+    this.router.navigate(['../']);
   }
 
   private createForm(): void {
@@ -74,16 +75,6 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
       }),
       takeUntil(this.componentAlive$)
     ).subscribe();
-  }
-
-  private trackSelectedTask(): void {
-    this.store.select(selectSelectedTask)
-      .pipe(
-        filter(task => !!task),
-        tap(task => this.taskForm.patchValue(task)),
-        tap(task => this.originalTaskValue = task),
-        takeUntil(this.componentAlive$)
-      ).subscribe();
   }
 
 }

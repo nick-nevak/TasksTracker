@@ -1,4 +1,7 @@
-<form [formGroup]="taskForm">
+<form
+  [formGroup]="taskForm"
+  [connectForm]="task$ | async"
+>
   <div class="row row-cols-2 mt-5">
     <mat-form-field
       class="col"
