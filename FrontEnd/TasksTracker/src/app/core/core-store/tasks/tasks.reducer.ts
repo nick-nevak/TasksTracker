@@ -33,6 +33,9 @@ const reducer = createReducer(
   }),
   on(TasksActions.selectTaskSuccess, (state, { task }) => {
     return { ...state, selectedTask: task };
+  }),
+  on(TasksActions.clearSelectedTask, (state) => {
+    return { ...state, selectedTask: null };
   })
 );
 

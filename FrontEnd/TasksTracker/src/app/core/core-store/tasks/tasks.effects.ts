@@ -4,7 +4,7 @@ import { filter, tap, map, withLatestFrom, switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '../core-store.module';
 import { TasksHttpService } from '../../../tasks/services/tasks-http.service';
-import { loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess, selectTaskSuccess, selectTask } from './tasks.actions';
+import { loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess, selectTaskSuccess, selectTask, clearSelectedTask } from './tasks.actions';
 import { Router, ActivatedRoute } from '@angular/router';
 
 
@@ -47,11 +47,12 @@ export class TasksEffects {
       map(updatedTask => updateTaskSuccess({ task: updatedTask }))
     );
 
-  @Effect({ dispatch: false })
+  @Effect()
   updateTaskSuccess$ = this.actions$
     .pipe(
       ofType(updateTaskSuccess),
-      tap(_ => this.router.navigate(['/']))
+      tap(_ => this.router.navigate(['/'])),
+      map(_ => clearSelectedTask())
     );
 
   @Effect()

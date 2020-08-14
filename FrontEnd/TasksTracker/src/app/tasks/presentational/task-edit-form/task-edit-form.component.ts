@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { Task } from '../../models/task';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-task-edit-form',
   templateUrl: './task-edit-form.component.html',
-  styleUrls: ['./task-edit-form.component.scss']
+  styleUrls: ['./task-edit-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskEditFormComponent implements OnChanges {
 
