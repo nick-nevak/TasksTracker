@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BaseDestroyableComponent } from '../../../core/base-classes/base-destroyable';
 import { takeUntil, tap } from 'rxjs/operators';
-import { Task } from '../../models/task';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
 import { loadTasksSuccess, deleteTaskSuccess, loadTasks, deleteTask, selectTask } from '../../../core/core-store/tasks/tasks.actions';
 import { selectTasks, selectAreTasksLoaded } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { Task } from 'src/app/core/models/task';
 
 @Component({
   selector: 'app-tasks-list',

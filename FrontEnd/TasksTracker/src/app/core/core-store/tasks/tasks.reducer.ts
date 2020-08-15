@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as TasksActions from './tasks.actions';
-import { Task } from '../../../tasks/models/task';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { Task } from '../../models/task';
 
 export interface TasksState extends EntityState<Task> {
   areTasksLoaded: boolean;

@@ -3,8 +3,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { filter, tap, map, withLatestFrom, switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '../core-store.module';
-import { TasksHttpService } from '../../../tasks/services/tasks-http.service';
-import { loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess, selectTaskSuccess, selectTask, clearSelectedTask } from './tasks.actions';
+import { TasksHttpService } from '../../services/tasks-http.service';
+import { loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess,
+         selectTaskSuccess, selectTask, clearSelectedTask } from './tasks.actions';
 import { Router, ActivatedRoute } from '@angular/router';
 
 

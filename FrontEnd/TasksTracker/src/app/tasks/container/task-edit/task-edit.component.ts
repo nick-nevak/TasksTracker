@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Task } from '../../models/task';
 import { takeUntil, tap, catchError, filter } from 'rxjs/operators';
 import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
 import { AppState } from '../../../core/core-store/core-store.module';
@@ -9,6 +8,7 @@ import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, selectTas
 import { selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Task } from 'src/app/core/models/task';
 
 @Component({
   selector: 'app-task-edit',

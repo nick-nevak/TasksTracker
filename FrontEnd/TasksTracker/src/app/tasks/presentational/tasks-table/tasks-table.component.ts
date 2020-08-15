@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { Task } from '../../models/task';
+import { Task } from 'src/app/core/models/task';
 
 @Component({
   selector: 'app-tasks-table',
