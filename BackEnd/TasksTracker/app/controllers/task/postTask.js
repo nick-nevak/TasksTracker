@@ -1,6 +1,6 @@
 const Tasks = require('../../models/Task');
 
-module.exports = getTasks = async (request, response) => {
+module.exports = async (request, response) => {
   const result = await Tasks.create({
     ...request.body
   });

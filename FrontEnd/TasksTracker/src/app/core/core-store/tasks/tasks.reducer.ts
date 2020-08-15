@@ -14,6 +14,7 @@ export const tasksAdapter: EntityAdapter<Task> = createEntityAdapter<Task>({
 
 const initialState: TasksState = tasksAdapter.getInitialState({
   areTasksLoaded: false,
+  // TODO: consider to move to separated state for form
   selectedTask: null
 });
 
@@ -36,6 +37,9 @@ const reducer = createReducer(
   }),
   on(TasksActions.clearSelectedTask, (state) => {
     return { ...state, selectedTask: null };
+  }),
+  on(TasksActions.patchTaskSuccess, (state, { task }) => {
+    return { ...state, selectedTask: task };
   })
 );
 

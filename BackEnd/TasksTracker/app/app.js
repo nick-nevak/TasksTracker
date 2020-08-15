@@ -8,6 +8,7 @@ const getTasksController = require('./controllers/task/getTasks');
 const postTaskController = require('./controllers/task/postTask');
 const putTaskController = require('./controllers/task/putTask');
 const deleteTaskController = require('./controllers/task/deleteTask');
+const patchTaskController = require('./controllers/task/patchTask');
 const prioritiesInitializer = require('./models/initializers/prioritiesInitializer');
 
 const getPrioritiesController = require('./controllers/priority/getPriorities');
@@ -49,6 +50,8 @@ app.post('/task', postTaskController);
 app.put('/task/:id', putTaskController);
 
 app.delete('/task/:id', deleteTaskController);
+
+app.patch('/task/:id', patchTaskController);
 
 
 app.get('/priorities', getPrioritiesController);

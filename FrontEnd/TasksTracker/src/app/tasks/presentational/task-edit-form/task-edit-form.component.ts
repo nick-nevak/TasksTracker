@@ -2,6 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Task } from 'src/app/core/models/task';
 import { Priority } from 'src/app/core/models/priority';
+import { distinctUntilChanged, debounceTime, switchMap, tap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
+import { pipe, of, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-task-edit-form',
@@ -9,13 +12,16 @@ import { Priority } from 'src/app/core/models/priority';
   styleUrls: ['./task-edit-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskEditFormComponent implements OnChanges {
+export class TaskEditFormComponent extends BaseDestroyableComponent implements OnChanges {
 
   @Input()
   task: Task;
 
   @Input()
   priorities: Priority[];
+
+  @Output()
+  fieldUpdated = new EventEmitter<any>();
 
   @Output()
   formSubmitted = new EventEmitter<Task>();
@@ -25,7 +31,19 @@ export class TaskEditFormComponent implements OnChanges {
 
   taskForm: FormGroup;
 
+
+  // TODO: move to directive
+  private getPipeForFormControl(fieldName: string) {
+    return pipe(
+      withLatestFrom(of(fieldName)),
+      distinctUntilChanged(),
+      debounceTime(500),
+      tap(([value, key]) => this.fieldUpdated.next({ [key]: value })),
+      takeUntil(this.componentAlive$));
+  }
+
   constructor(private fb: FormBuilder) {
+    super();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -33,7 +51,7 @@ export class TaskEditFormComponent implements OnChanges {
       this.createForm();
     }
     if (changes.task?.currentValue) {
-      this.taskForm.patchValue(changes.task.currentValue);
+      this.taskForm.patchValue(changes.task.currentValue, { emitEvent: false });
     }
   }
 
@@ -52,6 +70,17 @@ export class TaskEditFormComponent implements OnChanges {
       source: '',
       priority: ''
     });
+    this.trackFieldsChanges();
+  }
+
+  // TODO: move to directive
+  private trackFieldsChanges(): void {
+    Object.keys(this.taskForm.controls)
+      .forEach(formControlName => {
+        this.taskForm.get(formControlName).valueChanges
+          .pipe(this.getPipeForFormControl(formControlName))
+          .subscribe();
+      });
   }
 
 }

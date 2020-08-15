@@ -12,6 +12,8 @@ const DELETE_SUCCESS = '[Task] DELETE_SUCCESS';
 const LOAD_SELECTED = '[Task] LOAD_SELECTED';
 const LOAD_SELECTED_SUCCESS = '[Task] SELECT_SUCCESS';
 const CLEAR_SELECTED = '[Task] CLEAR_SELECTED';
+const PATCH = '[Task] PATCH';
+const PATCH_SUCCESS = '[Task] PATCH_SUCCESS';
 
 export const loadTasks = createAction(
   LOAD
@@ -64,6 +66,16 @@ export const loadTaskSuccess = createAction(
 
 export const clearSelectedTask = createAction(
   CLEAR_SELECTED
+);
+
+export const patchTask = createAction(
+  PATCH,
+  props<{ taskId: string, patchDocument: { [key: string]: string } }>()
+);
+
+export const patchTaskSuccess = createAction(
+  PATCH_SUCCESS,
+  props<{ task: Task }>()
 );
 
 

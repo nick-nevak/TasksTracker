@@ -4,7 +4,7 @@ import { takeUntil, tap, catchError, filter } from 'rxjs/operators';
 import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
-import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, loadTask, clearSelectedTask } from '../../../core/core-store/tasks/tasks.actions';
+import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, loadTask, clearSelectedTask, patchTask } from '../../../core/core-store/tasks/tasks.actions';
 import { selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { selectPriorities } from '../../../core/core-store/priorities/priorities.selectors';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -34,6 +34,10 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
   ngOnInit(): void {
     this.trackTaskId();
     this.getPriorities();
+  }
+
+  onFieldUpdated(changes: { [key: string]: string }): void {
+    this.store.dispatch(patchTask({ taskId: this.taskId, patchDocument: changes }));
   }
 
   onFormSubmitted(formValue): void {

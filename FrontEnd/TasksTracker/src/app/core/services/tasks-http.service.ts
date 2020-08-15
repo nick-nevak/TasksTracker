@@ -61,4 +61,12 @@ export class TasksHttpService {
       );
   }
 
+  patchTask(taskId: string, patchDocument: { [key: string]: string }): Observable<Task> {
+    return this.httpClient.patch(`${taskUrl}/${taskId}`, patchDocument)
+      .pipe(
+        map(task => task as Task),
+        tap(task => console.log('patched task:', task))
+      );
+  }
+
 }
