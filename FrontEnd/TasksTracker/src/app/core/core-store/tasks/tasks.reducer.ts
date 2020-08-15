@@ -4,7 +4,6 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Task } from '../../models/task';
 
 export interface TasksState extends EntityState<Task> {
-  areTasksLoaded: boolean;
   selectedTask: Task;
 }
 
@@ -21,7 +20,8 @@ const initialState: TasksState = tasksAdapter.getInitialState({
 const reducer = createReducer(
   initialState,
   on(TasksActions.loadTasksSuccess, (state, { tasks }) => {
-    return tasksAdapter.addMany(tasks, { ...state, areTasksLoaded: true });
+    const clearedState = tasksAdapter.removeAll(state);
+    return tasksAdapter.addMany(tasks, clearedState);
   }),
   on(TasksActions.createTaskSuccess, (state, { task }) => {
     return tasksAdapter.addOne(task, state);

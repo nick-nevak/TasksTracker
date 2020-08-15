@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BaseDestroyableComponent } from '../../../core/base-classes/base-destroyable';
-import { takeUntil, tap } from 'rxjs/operators';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
-import { loadTasksSuccess, deleteTaskSuccess, loadTasks, deleteTask, loadTask } from '../../../core/core-store/tasks/tasks.actions';
-import { selectTasks, selectAreTasksLoaded } from '../../../core/core-store/tasks/tasks.selectors';
+import { loadTasks, deleteTask } from '../../../core/core-store/tasks/tasks.actions';
+import { selectTasks } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Task } from 'src/app/core/models/task';
@@ -24,7 +23,7 @@ export class TasksListComponent extends BaseDestroyableComponent implements OnIn
   }
 
   ngOnInit(): void {
-    this.trackTasksLoadedStatus();
+    this.store.dispatch(loadTasks());
   }
 
   onTaskEdited(task: Task): void {
@@ -33,14 +32,6 @@ export class TasksListComponent extends BaseDestroyableComponent implements OnIn
 
   onTaskDeleted(task: Task): void {
     this.store.dispatch(deleteTask({ taskId: task._id }));
-  }
-
-  private trackTasksLoadedStatus(): void {
-    this.store.select(selectAreTasksLoaded)
-      .pipe(
-        tap(areLoaded => !areLoaded ? this.store.dispatch(loadTasks()) : undefined),
-        takeUntil(this.componentAlive$)
-      ).subscribe();
   }
 
 }

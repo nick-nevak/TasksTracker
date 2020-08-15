@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { filter, tap, map, withLatestFrom, switchMap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { AppState } from '../core-store.module';
+import { tap, map, switchMap } from 'rxjs/operators';
 import { TasksHttpService } from '../../services/tasks-http.service';
 import { loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess,
          loadTaskSuccess, loadTask, clearSelectedTask, patchTask, patchTaskSuccess } from './tasks.actions';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -14,8 +12,7 @@ export class TasksEffects {
 
   constructor(private actions$: Actions,
               private tasksHttpService: TasksHttpService,
-              private router: Router,
-              private activetedRoute: ActivatedRoute) { }
+              private router: Router) { }
 
   @Effect()
   loadTasks$ = this.actions$
@@ -79,12 +76,5 @@ export class TasksEffects {
       switchMap(({ taskId, patchDocument }) => this.tasksHttpService.patchTask(taskId, patchDocument)),
       map(updatedTask => patchTaskSuccess({ task: updatedTask }))
     );
-
-  @Effect({ dispatch: false })
-  patchTaskSuccess$ = this.actions$
-    .pipe(
-      ofType(patchTaskSuccess)
-    );
-
 
 }

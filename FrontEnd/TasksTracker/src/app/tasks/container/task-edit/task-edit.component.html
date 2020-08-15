@@ -1,7 +1,7 @@
 <app-task-edit-form
   [task]="task$ | async"
   [priorities]="priorities$ | async"
+  [isInEditMode]="!!taskId"
   (fieldUpdated)="onFieldUpdated($event)"
   (formSubmitted)="onFormSubmitted($event)"
-  (formCancelled)="onFormCancelled()"
 ></app-task-edit-form>

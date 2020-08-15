@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Task } from 'src/app/core/models/task';
 import { Priority } from 'src/app/core/models/priority';
-import { distinctUntilChanged, debounceTime, switchMap, tap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, debounceTime, tap, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
-import { pipe, of, combineLatest } from 'rxjs';
+import { pipe, of } from 'rxjs';
 
 @Component({
   selector: 'app-task-edit-form',
@@ -20,14 +20,15 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
   @Input()
   priorities: Priority[];
 
+  @Input()
+  isInEditMode: boolean;
+
   @Output()
-  fieldUpdated = new EventEmitter<any>();
+  fieldUpdated = new EventEmitter<{[key: string]: string}>();
 
   @Output()
   formSubmitted = new EventEmitter<Task>();
 
-  @Output()
-  formCancelled = new EventEmitter<Task>();
 
   taskForm: FormGroup;
 
@@ -38,7 +39,7 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
       withLatestFrom(of(fieldName)),
       distinctUntilChanged(),
       debounceTime(500),
-      tap(([value, key]) => this.fieldUpdated.next({ [key]: value })),
+      tap(([value, key]) => this.fieldUpdated.next({ [key]: (value as string) })),
       takeUntil(this.componentAlive$));
   }
 
@@ -59,10 +60,6 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
     this.formSubmitted.next(this.taskForm.value);
   }
 
-  cancelChanges(): void {
-    this.formCancelled.next();
-  }
-
   private createForm(): void {
     this.taskForm = this.fb.group({
       title: '',
@@ -70,7 +67,9 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
       source: '',
       priority: ''
     });
-    this.trackFieldsChanges();
+    if (this.isInEditMode) {
+      this.trackFieldsChanges();
+    }
   }
 
   // TODO: move to directive
