@@ -31,7 +31,7 @@ const reducer = createReducer(
   on(TasksActions.deleteTaskSuccess, (state, { taskId }) => {
     return tasksAdapter.removeOne(taskId, state);
   }),
-  on(TasksActions.selectTaskSuccess, (state, { task }) => {
+  on(TasksActions.loadTaskSuccess, (state, { task }) => {
     return { ...state, selectedTask: task };
   }),
   on(TasksActions.clearSelectedTask, (state) => {

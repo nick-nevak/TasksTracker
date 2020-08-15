@@ -4,7 +4,7 @@ import { takeUntil, tap, catchError, filter } from 'rxjs/operators';
 import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
-import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, selectTask, clearSelectedTask } from '../../../core/core-store/tasks/tasks.actions';
+import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, loadTask, clearSelectedTask } from '../../../core/core-store/tasks/tasks.actions';
 import { selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -49,9 +49,14 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
     this.activatedRoute.paramMap.pipe(
       tap(paramMap => {
         this.taskId = paramMap.get('id');
+        this.taskId ? this.getTask(this.taskId) : undefined;
       }),
       takeUntil(this.componentAlive$)
     ).subscribe();
+  }
+
+  private getTask(taskId: string): void {
+    this.store.dispatch(loadTask({ taskId }));
   }
 
   private createTask(task: Task): void {

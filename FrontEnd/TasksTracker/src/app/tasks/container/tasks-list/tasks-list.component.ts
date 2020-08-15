@@ -3,7 +3,7 @@ import { BaseDestroyableComponent } from '../../../core/base-classes/base-destro
 import { takeUntil, tap } from 'rxjs/operators';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
-import { loadTasksSuccess, deleteTaskSuccess, loadTasks, deleteTask, selectTask } from '../../../core/core-store/tasks/tasks.actions';
+import { loadTasksSuccess, deleteTaskSuccess, loadTasks, deleteTask, loadTask } from '../../../core/core-store/tasks/tasks.actions';
 import { selectTasks, selectAreTasksLoaded } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -28,7 +28,6 @@ export class TasksListComponent extends BaseDestroyableComponent implements OnIn
   }
 
   onTaskEdited(task: Task): void {
-    this.store.dispatch(selectTask({ taskId: task._id }));
     this.router.navigate(['./edit', `${task._id}`]);
   }
 

@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../core-store.module';
 import { TasksHttpService } from '../../services/tasks-http.service';
 import { loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess,
-         selectTaskSuccess, selectTask, clearSelectedTask } from './tasks.actions';
+         loadTaskSuccess, loadTask, clearSelectedTask } from './tasks.actions';
 import { Router, ActivatedRoute } from '@angular/router';
 
 
@@ -65,11 +65,11 @@ export class TasksEffects {
     );
 
   @Effect()
-  selectTask$ = this.actions$
+  loadTask$ = this.actions$
     .pipe(
-      ofType(selectTask),
+      ofType(loadTask),
       switchMap(({ taskId }) => this.tasksHttpService.getTask(taskId)),
-      map(task => selectTaskSuccess({ task }))
+      map(task => loadTaskSuccess({ task }))
     );
 
 
