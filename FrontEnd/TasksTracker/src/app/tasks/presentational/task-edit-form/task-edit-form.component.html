@@ -1,6 +1,4 @@
-<form
-  [formGroup]="taskForm"
->
+<form [formGroup]="taskForm">
   <div class="row row-cols-2 mt-5">
     <mat-form-field
       class="col"
@@ -37,6 +35,21 @@
         placeholder="Placeholder"
         autocomplete="off"
       >
+    </mat-form-field>
+    <mat-form-field
+      class="col"
+      appearance="standard"
+    >
+      <mat-label>Priority</mat-label>
+      <mat-select formControlName="priority">
+        <mat-option>None</mat-option>
+        <mat-option
+          *ngFor="let priority of priorities"
+          [value]="priority._id"
+        >
+          {{priority.description}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 

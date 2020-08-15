@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { baseUrl } from './tasks-http.service';
 
 const priorityUrl = `${baseUrl}/priority`;
-const prioritiesUrl = `${priorityUrl}s`;
+const prioritiesUrl = `${baseUrl}/priorities`;
 
 @Injectable({
   providedIn: 'root'

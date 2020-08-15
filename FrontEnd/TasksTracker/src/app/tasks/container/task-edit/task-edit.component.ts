@@ -6,9 +6,12 @@ import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
 import { createTaskSuccess, updateTaskSuccess, createTask, updateTask, loadTask, clearSelectedTask } from '../../../core/core-store/tasks/tasks.actions';
 import { selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
+import { selectPriorities } from '../../../core/core-store/priorities/priorities.selectors';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Task } from 'src/app/core/models/task';
+import { Priority } from 'src/app/core/models/priority';
+import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.actions';
 
 @Component({
   selector: 'app-task-edit',
@@ -18,6 +21,7 @@ import { Task } from 'src/app/core/models/task';
 export class TaskEditComponent extends BaseDestroyableComponent implements OnInit {
 
   task$: Observable<Task> = this.store.select(selectSelectedTask);
+  priorities$: Observable<Priority[]> = this.store.select(selectPriorities);
   taskId: string;
 
   constructor(private store: Store<AppState>,
@@ -29,6 +33,7 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
 
   ngOnInit(): void {
     this.trackTaskId();
+    this.getPriorities();
   }
 
   onFormSubmitted(formValue): void {
@@ -53,6 +58,10 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
       }),
       takeUntil(this.componentAlive$)
     ).subscribe();
+  }
+
+  private getPriorities(): void {
+    this.store.dispatch(loadPriorities());
   }
 
   private getTask(taskId: string): void {

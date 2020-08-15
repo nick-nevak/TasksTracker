@@ -1,5 +1,6 @@
 <app-task-edit-form
   [task]="task$ | async"
+  [priorities]="priorities$ | async"
   (formSubmitted)="onFormSubmitted($event)"
   (formCancelled)="onFormCancelled()"
 ></app-task-edit-form>
