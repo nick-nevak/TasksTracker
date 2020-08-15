@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
 import { Task } from '../models/task';
 import { Observable } from 'rxjs';
@@ -25,8 +25,11 @@ export class TasksHttpService {
       );
   }
 
-  getTasks(): Observable<Task[]> {
-    return this.httpClient.get(tasksUrl)
+  getTasks(paramObj?: {includePriority: boolean}): Observable<Task[]> {
+    const params = new HttpParams()
+      .set('includePriority', `${paramObj?.includePriority}`);
+
+    return this.httpClient.get(tasksUrl, { params })
       .pipe(
         map(tasks => tasks as Task[]),
         tap(tasks => console.log('tasks:', tasks)

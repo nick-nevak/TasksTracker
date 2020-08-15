@@ -21,7 +21,7 @@ export class TasksEffects {
   loadTasks$ = this.actions$
     .pipe(
       ofType(loadTasks),
-      switchMap(() => this.tasksHttpService.getTasks()),
+      switchMap(() => this.tasksHttpService.getTasks({ includePriority: true })),
       map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
     );
 

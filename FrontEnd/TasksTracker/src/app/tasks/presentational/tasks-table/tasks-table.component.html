@@ -6,6 +6,7 @@
         <th scope="col">Title</th>
         <th scope="col">Description</th>
         <th scope="col">Source</th>
+        <th scope="col">Priority</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -16,6 +17,7 @@
           <td>{{task?.title}}</td>
           <td>{{task?.description}}</td>
           <td>{{task?.source}}</td>
+          <td>{{task?.priority?.description || 'None'}}</td>
           <td>
             <button
               mat-button

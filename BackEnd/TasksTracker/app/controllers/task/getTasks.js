@@ -1,6 +1,8 @@
 const Tasks = require('../../models/Task');
 
-module.exports = getTasks = async (request, response) =>{
-  const result = await Tasks.find();
+module.exports = getTasks = async (request, response) => {
+  const shouldIncludePriority = request.query.includePriority
+  const query = shouldIncludePriority === 'true' ? Tasks.find().populate('priority') : Tasks.find();
+  const result = await query;
   response.json(result);
 }
