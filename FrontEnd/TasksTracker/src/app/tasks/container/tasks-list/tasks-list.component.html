@@ -6,6 +6,7 @@
 </button>
 <app-tasks-table
   [tasks]="tasks$ | async"
+  (taskStatusUpdated)="onTaskStatusUpdated($event)"
   (taskEdited)="onTaskEdited($event)"
   (taskDeleted)="onTaskDeleted($event)"
 ></app-tasks-table>

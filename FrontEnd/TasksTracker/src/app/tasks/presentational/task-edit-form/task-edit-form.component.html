@@ -12,29 +12,31 @@
         autocomplete="off"
       >
     </mat-form-field>
+    <div class="col">
+      <mat-checkbox formControlName="status">Status</mat-checkbox>
+    </div>
     <mat-form-field
       class="col"
       appearance="standard"
     >
-      <mat-label>Description</mat-label>
+      <mat-label>Due date</mat-label>
       <input
-        formControlName="description"
+        Due date
         matInput
         placeholder="Placeholder"
         autocomplete="off"
       >
-    </mat-form-field>
-    <mat-form-field
-      class="col"
-      appearance="standard"
-    >
-      <mat-label>Source</mat-label>
+      <!-- <mat-label>Due date</mat-label>
       <input
-        formControlName="source"
-        matInput
         placeholder="Placeholder"
-        autocomplete="off"
+        matInput
+        [matDatepicker]="picker1"
       >
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker1"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker> -->
     </mat-form-field>
     <mat-form-field
       class="col"
@@ -49,6 +51,17 @@
           {{priority.description}}
         </mat-option>
       </mat-select>
+    </mat-form-field>
+    <mat-form-field
+      class="col"
+      appearance="standard"
+    >
+      <mat-label>Description</mat-label>
+      <textarea
+        formControlName="description"
+        matInput
+        placeholder="Placeholder"
+      ></textarea>
     </mat-form-field>
   </div>
 

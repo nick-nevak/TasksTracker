@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BaseDestroyableComponent } from '../../../core/base-classes/base-destroyable';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
-import { loadTasks, deleteTask } from '../../../core/core-store/tasks/tasks.actions';
+import { loadTasks, deleteTask, patchTask } from '../../../core/core-store/tasks/tasks.actions';
 import { selectTasks } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -24,6 +24,12 @@ export class TasksListComponent extends BaseDestroyableComponent implements OnIn
 
   ngOnInit(): void {
     this.store.dispatch(loadTasks());
+  }
+
+  onTaskStatusUpdated(event: {task: Task, updatedStatus: boolean}): void{
+    const {task, updatedStatus} = event;
+    const patchDocument = { status: updatedStatus };
+    this.store.dispatch(patchTask({ taskId: task._id, patchDocument}));
   }
 
   onTaskEdited(task: Task): void {

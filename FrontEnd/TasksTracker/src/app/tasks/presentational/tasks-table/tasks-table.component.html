@@ -2,10 +2,9 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Id</th>
+        <th scope="col">Status</th>
         <th scope="col">Title</th>
-        <th scope="col">Description</th>
-        <th scope="col">Source</th>
+        <th scope="col">Due date</th>
         <th scope="col">Priority</th>
         <th scope="col">Actions</th>
       </tr>
@@ -13,11 +12,12 @@
     <tbody>
       <ng-container *ngFor="let task of tasks">
         <tr>
-          <th scope="row">{{task?._id}}</th>
+          <th scope="row">
+            <mat-checkbox [ngModel]="task.status" (ngModelChange)="updateStatus(task, $event)"></mat-checkbox>
+          </th>
           <td>{{task?.title}}</td>
-          <td>{{task?.description}}</td>
-          <td>{{task?.source}}</td>
-          <td>{{task?.priority?.description || 'None'}}</td>
+          <td>{{task?.dueDate}}</td>
+          <td>{{task?.priority?.description}}</td>
           <td>
             <button
               mat-button

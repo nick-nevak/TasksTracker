@@ -70,7 +70,7 @@ export const clearSelectedTask = createAction(
 
 export const patchTask = createAction(
   PATCH,
-  props<{ taskId: string, patchDocument: { [key: string]: string } }>()
+  props<{ taskId: string, patchDocument: { [key: string]: any } }>()
 );
 
 export const patchTaskSuccess = createAction(

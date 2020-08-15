@@ -24,14 +24,12 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
   isInEditMode: boolean;
 
   @Output()
-  fieldUpdated = new EventEmitter<{[key: string]: string}>();
+  fieldUpdated = new EventEmitter<{ [key: string]: any }>();
 
   @Output()
   formSubmitted = new EventEmitter<Task>();
 
-
   taskForm: FormGroup;
-
 
   // TODO: move to directive
   private getPipeForFormControl(fieldName: string) {
@@ -39,7 +37,7 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
       withLatestFrom(of(fieldName)),
       distinctUntilChanged(),
       debounceTime(500),
-      tap(([value, key]) => this.fieldUpdated.next({ [key]: (value as string) })),
+      tap(([value, key]) => this.fieldUpdated.next({ [key]: value })),
       takeUntil(this.componentAlive$));
   }
 
@@ -63,8 +61,9 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
   private createForm(): void {
     this.taskForm = this.fb.group({
       title: '',
+      status: '',
+      dueDate: '',
       description: '',
-      source: '',
       priority: ''
     });
     if (this.isInEditMode) {

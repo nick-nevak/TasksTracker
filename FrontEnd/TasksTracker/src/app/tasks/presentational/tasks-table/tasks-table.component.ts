@@ -7,10 +7,13 @@ import { Task } from 'src/app/core/models/task';
   styleUrls: ['./tasks-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TasksTableComponent implements OnInit {
+export class TasksTableComponent {
 
   @Input()
   tasks: Task;
+
+  @Output()
+  taskStatusUpdated = new EventEmitter<{task: Task, updatedStatus: boolean}>();
 
   @Output()
   taskEdited = new EventEmitter<Task>();
@@ -18,9 +21,8 @@ export class TasksTableComponent implements OnInit {
   @Output()
   taskDeleted = new EventEmitter<Task>();
 
-  constructor() { }
-
-  ngOnInit(): void {
+  updateStatus(task: Task, updatedStatus): void {
+    this.taskStatusUpdated.next({task, updatedStatus});
   }
 
   edit(task: Task): void {

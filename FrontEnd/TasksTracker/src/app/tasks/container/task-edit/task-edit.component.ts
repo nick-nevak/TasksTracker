@@ -38,7 +38,8 @@ export class TaskEditComponent extends BaseDestroyableComponent implements OnIni
     this.store.dispatch(clearSelectedTask());
   }
 
-  onFieldUpdated(changes: { [key: string]: string }): void {
+  onFieldUpdated(changes: { [key: string]: any }): void {
+    console.log('field update:', changes);
     this.store.dispatch(patchTask({ taskId: this.taskId, patchDocument: changes }));
   }
 

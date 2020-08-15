@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema({
   title: String,
+  status: Boolean,
+  dueDate: Date,
   description: String,
-  source: String,
   priority: {
     type: Schema.Types.ObjectId,
     ref: 'Priority'
