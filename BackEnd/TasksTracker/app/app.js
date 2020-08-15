@@ -39,6 +39,7 @@ app.listen(port, _ => {
 
 //prioritiesInitializer();
 
+// TODO: add response statuses other than 200, see https://medium.com/@jeffandersen/building-a-node-js-rest-api-with-express-46b0901f29b6
 app.get('/', (request, response) => response.json({ Version: '1.0' }));
 
 app.get('/task/:id', getTaskController);

@@ -42,7 +42,6 @@
     >
       <mat-label>Priority</mat-label>
       <mat-select formControlName="priority">
-        <mat-option>None</mat-option>
         <mat-option
           *ngFor="let priority of priorities"
           [value]="priority._id"
