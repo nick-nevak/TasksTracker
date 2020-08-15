@@ -8,6 +8,9 @@ const getTasksController = require('./controllers/task/getTasks');
 const postTaskController = require('./controllers/task/postTask');
 const putTaskController = require('./controllers/task/putTask');
 const deleteTaskController = require('./controllers/task/deleteTask');
+const prioritiesInitializer = require('./models/initializers/prioritiesInitializer');
+
+const getPrioritiesController = require('./controllers/priority/getPriorities');
 
 
 
@@ -33,6 +36,8 @@ app.listen(port, _ => {
   console.log(`App listening on port ${port}`);
 });
 
+//prioritiesInitializer();
+
 app.get('/', (request, response) => response.json({ Version: '1.0' }));
 
 app.get('/task/:id', getTaskController);
@@ -44,4 +49,7 @@ app.post('/task', postTaskController);
 app.put('/task/:id', putTaskController);
 
 app.delete('/task/:id', deleteTaskController);
+
+
+app.get('/priorities', getPrioritiesController);
 

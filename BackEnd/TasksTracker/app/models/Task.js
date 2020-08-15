@@ -6,8 +6,10 @@ const TaskSchema = new Schema({
   description: String,
   source: String,
   priority: {
-    type: Schema.Types.ObjectId,
-    ref: 'Priority'
+    type: new Schema({
+      value: Number,
+      description: String
+    })
   }
 });
 
