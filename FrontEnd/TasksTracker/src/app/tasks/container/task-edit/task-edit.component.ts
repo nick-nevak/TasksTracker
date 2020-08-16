@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap, filter, take } from 'rxjs/operators';
 import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
@@ -19,7 +19,11 @@ import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.ac
 })
 export class TaskEditComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
 
-  task$: Observable<Task> = this.store.select(selectSelectedTask);
+  task$: Observable<Task> = this.store.select(selectSelectedTask)
+    .pipe(
+      filter(task => !!task),
+      take(1)
+    );
   priorities$: Observable<Priority[]> = this.store.select(selectPriorities);
   taskId: string;
 

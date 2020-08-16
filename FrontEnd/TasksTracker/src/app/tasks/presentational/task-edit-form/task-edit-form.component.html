@@ -21,22 +21,16 @@
     >
       <mat-label>Due date</mat-label>
       <input
-        Due date
-        matInput
-        placeholder="Placeholder"
-        autocomplete="off"
-      >
-      <!-- <mat-label>Due date</mat-label>
-      <input
+      formControlName="dueDate"
         placeholder="Placeholder"
         matInput
-        [matDatepicker]="picker1"
+        [matDatepicker]="datepicker"
       >
       <mat-datepicker-toggle
         matSuffix
-        [for]="picker1"
+        [for]="datepicker"
       ></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker> -->
+      <mat-datepicker #datepicker></mat-datepicker>
     </mat-form-field>
     <mat-form-field
       class="col"
