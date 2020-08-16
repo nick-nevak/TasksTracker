@@ -17,7 +17,7 @@
           </th>
           <td>{{task?.title}}</td>
           <td>{{task?.dueDate}}</td>
-          <td>{{task?.priority?.description}}</td>
+          <td>{{getPriority(task?.priority)?.description}}</td>
           <td>
             <button
               mat-button

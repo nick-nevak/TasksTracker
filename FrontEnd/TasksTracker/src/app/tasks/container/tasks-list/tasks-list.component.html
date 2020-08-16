@@ -1,6 +1,6 @@
 <div class="row row-cols-2 mt-5">
 
-  <div class="left-menu col">
+  <div class="left-menu col-7">
     <button
       mat-button
       routerLink="/tasks/create"
@@ -9,13 +9,14 @@
     </button>
     <app-tasks-table
       [tasks]="tasks$ | async"
+      [priorities]="priorities$ | async"
       (taskStatusUpdated)="onTaskStatusUpdated($event)"
       (taskEdited)="onTaskEdited($event)"
       (taskDeleted)="onTaskDeleted($event)"
     ></app-tasks-table>
   </div>
 
-  <div class="right-menu col ">
+  <div class="right-menu col-5">
     <router-outlet ></router-outlet>
   </div>
 

@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from 'src/app/core/models/task';
+import { Priority } from 'src/app/core/models/priority';
+import { Dictionary } from '@ngrx/entity';
 
 @Component({
   selector: 'app-tasks-table',
@@ -11,6 +13,9 @@ export class TasksTableComponent {
 
   @Input()
   tasks: Task;
+
+  @Input()
+  priorities: Dictionary<Priority>;
 
   @Output()
   taskStatusUpdated = new EventEmitter<{task: Task, updatedStatus: boolean}>();
@@ -31,6 +36,10 @@ export class TasksTableComponent {
 
   delete(task: Task): void {
     this.taskDeleted.next(task);
+  }
+
+  getPriority(priorityId: string): Priority {
+    return this.priorities && this.priorities[priorityId];
   }
 
 }

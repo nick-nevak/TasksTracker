@@ -7,6 +7,10 @@ import { selectTasks } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Task } from 'src/app/core/models/task';
+import { Priority } from 'src/app/core/models/priority';
+import { selectPrioritiesDictionary } from 'src/app/core/core-store/priorities/priorities.selectors';
+import { Dictionary } from '@ngrx/entity';
+import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.actions';
 
 @Component({
   selector: 'app-tasks-list',
@@ -16,20 +20,23 @@ import { Task } from 'src/app/core/models/task';
 export class TasksListComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
 
   tasks$: Observable<Task[]> = this.store.select(selectTasks);
+  priorities$: Observable<Dictionary<Priority>> = this.store.select(selectPrioritiesDictionary);
 
-  constructor(private store: Store<AppState>,
-              private router: Router) {
+  constructor(
+    private store: Store<AppState>,
+    private router: Router) {
     super();
   }
 
   ngOnInit(): void {
     this.store.dispatch(loadTasks());
+    this.store.dispatch(loadPriorities());
   }
 
-  onTaskStatusUpdated(event: {task: Task, updatedStatus: boolean}): void{
-    const {task, updatedStatus} = event;
+  onTaskStatusUpdated(event: { task: Task, updatedStatus: boolean }): void {
+    const { task, updatedStatus } = event;
     const patchDocument = { status: updatedStatus };
-    this.store.dispatch(patchTask({ taskId: task._id, patchDocument}));
+    this.store.dispatch(patchTask({ taskId: task._id, patchDocument }));
   }
 
   onTaskEdited(task: Task): void {

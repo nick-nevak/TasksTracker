@@ -17,3 +17,9 @@ export const selectPriorities = createSelector(
   selectAll
 );
 
+export const selectPrioritiesDictionary = createSelector(
+  selectPrioritiesState,
+  selectEntities
+);
+
+

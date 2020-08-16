@@ -19,11 +19,7 @@ import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.ac
 })
 export class TaskEditComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
 
-  task$: Observable<Task> = this.store.select(selectSelectedTask)
-    .pipe(
-      filter(task => !!task),
-      take(1)
-    );
+  task$: Observable<Task> = this.store.select(selectSelectedTask);
   priorities$: Observable<Priority[]> = this.store.select(selectPriorities);
   taskId: string;
 
