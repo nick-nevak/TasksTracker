@@ -66,6 +66,7 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
       description: '',
       priority: ''
     });
+    this.taskForm.get('status').patchValue(false, { emitEvent: false });
     if (this.isInEditMode) {
       this.trackFieldsChanges();
     }

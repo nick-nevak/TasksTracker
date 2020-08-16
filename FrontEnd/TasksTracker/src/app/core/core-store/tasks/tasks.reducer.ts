@@ -39,7 +39,7 @@ const reducer = createReducer(
     return { ...state, selectedTask: null };
   }),
   on(TasksActions.patchTaskSuccess, (state, { task }) => {
-    return { ...state, selectedTask: task };
+    return { ...state };
   })
 );
 

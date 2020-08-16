@@ -9,6 +9,7 @@ import { TaskEditComponent } from './container/task-edit/task-edit.component';
 import { TasksTableComponent } from './presentational/tasks-table/tasks-table.component';
 import { TaskEditFormComponent } from './presentational/task-edit-form/task-edit-form.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -26,7 +27,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     TasksRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class TasksModule { }
