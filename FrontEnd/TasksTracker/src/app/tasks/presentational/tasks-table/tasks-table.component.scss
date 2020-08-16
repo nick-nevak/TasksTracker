@@ -1,0 +1,8 @@
+.selected-task-item {
+  background-color: rgba(75,111,222,.12) !important;
+}
+
+.task-item:hover {
+  cursor: pointer;
+  background-color: rgba(75,111,222,.06);
+}

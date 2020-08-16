@@ -17,6 +17,9 @@ export class TasksTableComponent {
   @Input()
   priorities: Dictionary<Priority>;
 
+  @Input()
+  selectedTask: Task;
+
   @Output()
   taskStatusUpdated = new EventEmitter<{task: Task, updatedStatus: boolean}>();
 

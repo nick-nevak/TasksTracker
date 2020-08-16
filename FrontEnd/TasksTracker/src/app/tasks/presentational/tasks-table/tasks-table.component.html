@@ -11,20 +11,21 @@
     </thead>
     <tbody>
       <ng-container *ngFor="let task of tasks">
-        <tr>
+        <tr
+          class="task-item"
+          (click)="edit(task)"
+          [ngClass]="{'selected-task-item': task?._id === selectedTask?._id}"
+        >
           <th scope="row">
-            <mat-checkbox [ngModel]="task.status" (ngModelChange)="updateStatus(task, $event)"></mat-checkbox>
+            <mat-checkbox
+              [ngModel]="task.status"
+              (ngModelChange)="updateStatus(task, $event)"
+            ></mat-checkbox>
           </th>
           <td>{{task?.title}}</td>
           <td>{{task?.dueDate}}</td>
           <td>{{getPriority(task?.priority)?.description}}</td>
           <td>
-            <button
-              mat-button
-              (click)="edit(task)"
-            >
-              Edit
-            </button>
             <button
               mat-button
               (click)="delete(task)"

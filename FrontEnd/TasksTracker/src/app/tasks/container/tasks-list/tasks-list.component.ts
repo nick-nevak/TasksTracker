@@ -3,7 +3,7 @@ import { BaseDestroyableComponent } from '../../../core/base-classes/base-destro
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
 import { loadTasks, deleteTask, patchTask } from '../../../core/core-store/tasks/tasks.actions';
-import { selectTasks } from '../../../core/core-store/tasks/tasks.selectors';
+import { selectTasks, selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Task } from 'src/app/core/models/task';
@@ -21,6 +21,7 @@ export class TasksListComponent extends BaseDestroyableComponent implements OnIn
 
   tasks$: Observable<Task[]> = this.store.select(selectTasks);
   priorities$: Observable<Dictionary<Priority>> = this.store.select(selectPrioritiesDictionary);
+  selectedTask$: Observable<Task> = this.store.select(selectSelectedTask);
 
   constructor(
     private store: Store<AppState>,
