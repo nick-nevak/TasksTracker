@@ -1,12 +1,22 @@
-<button
-  mat-button
-  routerLink="/create"
->
-  Create new
-</button>
-<app-tasks-table
-  [tasks]="tasks$ | async"
-  (taskStatusUpdated)="onTaskStatusUpdated($event)"
-  (taskEdited)="onTaskEdited($event)"
-  (taskDeleted)="onTaskDeleted($event)"
-></app-tasks-table>
+<div class="row row-cols-2 mt-5">
+
+  <div class="left-menu col">
+    <button
+      mat-button
+      routerLink="/tasks/create"
+    >
+      Create new
+    </button>
+    <app-tasks-table
+      [tasks]="tasks$ | async"
+      (taskStatusUpdated)="onTaskStatusUpdated($event)"
+      (taskEdited)="onTaskEdited($event)"
+      (taskDeleted)="onTaskDeleted($event)"
+    ></app-tasks-table>
+  </div>
+
+  <div class="right-menu col ">
+    <router-outlet ></router-outlet>
+  </div>
+
+</div>

@@ -11,16 +11,17 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        pathMatch: 'full',
-        component: TasksListComponent
-      },
-      {
-        path: 'create',
-        component: TaskEditComponent
-      },
-      {
-        path: 'edit/:id',
-        component: TaskEditComponent
+        component: TasksListComponent,
+        children: [
+          {
+            path: 'create',
+            component: TaskEditComponent,
+          },
+          {
+            path: ':id',
+            component: TaskEditComponent,
+          },
+        ]
       }
     ]
   }

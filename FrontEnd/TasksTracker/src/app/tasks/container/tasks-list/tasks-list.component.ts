@@ -33,7 +33,7 @@ export class TasksListComponent extends BaseDestroyableComponent implements OnIn
   }
 
   onTaskEdited(task: Task): void {
-    this.router.navigate(['./edit', `${task._id}`]);
+    this.router.navigate(['/tasks', `${task._id}`]);
   }
 
   onTaskDeleted(task: Task): void {

@@ -1,5 +1,5 @@
 <form [formGroup]="taskForm">
-  <div class="row row-cols-2 mt-5">
+  <div class="row row-cols-2">
     <mat-form-field
       class="col"
       appearance="standard"
@@ -21,10 +21,11 @@
     >
       <mat-label>Due date</mat-label>
       <input
-      formControlName="dueDate"
+        formControlName="dueDate"
         placeholder="Placeholder"
         matInput
         [matDatepicker]="datepicker"
+        autocomplete="off"
       >
       <mat-datepicker-toggle
         matSuffix
@@ -46,6 +47,9 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
+
+  <div class="row">
     <mat-form-field
       class="col"
       appearance="standard"
