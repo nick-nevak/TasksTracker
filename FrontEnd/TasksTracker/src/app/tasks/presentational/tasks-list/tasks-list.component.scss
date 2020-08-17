@@ -6,3 +6,36 @@
   cursor: pointer;
   background-color: rgba(75,111,222,.06);
 }
+
+.task-item { 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 0px 5px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+.right-part, .left-part {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.checkbox {
+  padding-top: 11px;
+  margin-right: 10px;
+  margin-left: 15px;
+}
+
+.title, .dueDate, .actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button { 
+  outline:none; 
+}

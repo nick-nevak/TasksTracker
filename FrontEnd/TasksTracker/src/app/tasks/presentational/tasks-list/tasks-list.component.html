@@ -1,41 +1,46 @@
-
 <div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Status</th>
-        <th scope="col">Title</th>
-        <th scope="col">Due date</th>
-        <th scope="col">Priority</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let task of tasks">
-        <tr
-          class="task-item"
-          (click)="select(task)"
-          [ngClass]="{'selected-task-item': task?._id === selectedTask?._id}"
-        >
-          <th scope="row">
-            <mat-checkbox
-              [ngModel]="task.status"
-              (ngModelChange)="updateStatus(task, $event)"
-            ></mat-checkbox>
-          </th>
-          <td>{{task?.title}}</td>
-          <td>{{task?.dueDate}}</td>
-          <td>{{getPriority(task?.priority)?.description}}</td>
-          <td>
+  <ng-container *ngFor="let task of tasks">
+    <div
+      class="task-item"
+      (click)="select(task)"
+      [ngClass]="{'selected-task-item': task?._id === selectedTask?._id}"
+    >
+      <div class="left-part">
+        <div class="checkbox">
+          <mat-checkbox
+            [ngModel]="task.status"
+            (ngModelChange)="updateStatus(task, $event)"
+          ></mat-checkbox>
+        </div>
+        <div class="title">
+          {{task?.title}}
+        </div>
+      </div>
+      <div class="right-part">
+        <div class="dueDate">
+          {{task?.dueDate | date}}
+        </div>
+        <div class="actions">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu
+            #menu="matMenu"
+            xPosition="before"
+          >
             <button
-              mat-button
+              mat-menu-item
               (click)="delete(task)"
             >
-              Delete
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
             </button>
-          </td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>
