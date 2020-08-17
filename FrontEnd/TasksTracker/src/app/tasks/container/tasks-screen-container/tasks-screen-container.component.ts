@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { BaseDestroyableComponent } from '../../../core/base-classes/base-destroyable';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
@@ -13,11 +13,11 @@ import { Dictionary } from '@ngrx/entity';
 import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.actions';
 
 @Component({
-  selector: 'app-tasks-list',
-  templateUrl: './tasks-list.component.html',
-  styleUrls: ['./tasks-list.component.scss']
+  selector: 'app-tasks-screen-container',
+  templateUrl: './tasks-screen-container.component.html',
+  styleUrls: ['./tasks-screen-container.component.scss']
 })
-export class TasksListComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
+export class TasksScreenContainerComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
 
   tasks$: Observable<Task[]> = this.store.select(selectTasks);
   priorities$: Observable<Dictionary<Priority>> = this.store.select(selectPrioritiesDictionary);
@@ -34,13 +34,17 @@ export class TasksListComponent extends BaseDestroyableComponent implements OnIn
     this.store.dispatch(loadPriorities());
   }
 
+  onTaskCreated(): void {
+    this.router.navigate(['/tasks/create']);
+  }
+
   onTaskStatusUpdated(event: { task: Task, updatedStatus: boolean }): void {
     const { task, updatedStatus } = event;
     const patchDocument = { status: updatedStatus };
     this.store.dispatch(patchTask({ taskId: task._id, patchDocument }));
   }
 
-  onTaskEdited(task: Task): void {
+  onTaskSelected(task: Task): void {
     this.router.navigate(['/tasks', `${task._id}`]);
   }
 

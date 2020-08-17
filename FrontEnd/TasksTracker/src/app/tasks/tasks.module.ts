@@ -4,22 +4,25 @@ import { TasksComponent } from './tasks.component';
 import { TasksRoutingModule } from './tasks-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TasksListComponent } from './container/tasks-list/tasks-list.component';
-import { TaskEditComponent } from './container/task-edit/task-edit.component';
-import { TasksTableComponent } from './presentational/tasks-table/tasks-table.component';
+import { TaskEditContainerComponent } from './container/task-edit-container/task-edit-container.component';
 import { TaskEditFormComponent } from './presentational/task-edit-form/task-edit-form.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { TasksScreenComponent } from './presentational/tasks-screen/tasks-screen.component';
+import { TasksScreenContainerComponent } from './container/tasks-screen-container/tasks-screen-container.component';
+import { TasksListComponent } from './presentational/tasks-list/tasks-list.component';
 
 
 
 @NgModule({
   declarations: [
     TasksComponent,
+    TaskEditContainerComponent,
     TasksListComponent,
-    TaskEditComponent,
-    TasksTableComponent,
-    TaskEditFormComponent
+    TaskEditFormComponent,
+    TasksScreenComponent,
+    TasksScreenContainerComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +30,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     TasksRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgScrollbarModule
   ]
 })
 export class TasksModule { }

@@ -1,0 +1,39 @@
+<div class="row row-cols-2">
+
+  <div class="left-menu col-7">
+    <div
+      class="sticky-header"
+      #stickyHeader
+    >
+      <button
+        mat-button
+        (click)="onTaskCreated()"
+      >
+        Create new
+      </button>
+    </div>
+    <ng-scrollbar
+      track="all"
+      pointerEventsMethod="scrollbar"
+    >
+      <div
+        class="scrollable-content"
+        #scrollableContent
+      >
+        <app-tasks-list
+          [tasks]="tasks"
+          [priorities]="priorities"
+          [selectedTask]="selectedTask"
+          (taskStatusUpdated)="onTaskStatusUpdated($event)"
+          (taskSelected)="onTaskSelected($event)"
+          (taskDeleted)="onTaskDeleted($event)"
+        ></app-tasks-list>
+      </div>
+    </ng-scrollbar>
+  </div>
+
+  <div class="right-menu col-5">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

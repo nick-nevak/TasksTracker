@@ -1,0 +1,9 @@
+<app-tasks-screen
+  [tasks]="tasks$ | async"
+  [priorities]="priorities$ | async"
+  [selectedTask]="selectedTask$ | async"
+  (taskStatusUpdated)="onTaskStatusUpdated($event)"
+  (taskSelected)="onTaskSelected($event)"
+  (taskCreated)="onTaskCreated()"
+  (taskDeleted)="onTaskDeleted($event)"
+></app-tasks-screen>

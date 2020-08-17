@@ -13,11 +13,11 @@ import { Priority } from 'src/app/core/models/priority';
 import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.actions';
 
 @Component({
-  selector: 'app-task-edit',
-  templateUrl: './task-edit.component.html',
-  styleUrls: ['./task-edit.component.scss']
+  selector: 'app-task-edit-container',
+  templateUrl: './task-edit-container.component.html',
+  styleUrls: ['./task-edit-container.component.scss']
 })
-export class TaskEditComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
+export class TaskEditContainerComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
 
   task$: Observable<Task> = this.store.select(selectSelectedTask);
   priorities$: Observable<Priority[]> = this.store.select(selectPriorities);
