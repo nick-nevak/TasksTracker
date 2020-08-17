@@ -33,7 +33,7 @@ export class TasksScreenComponent implements AfterViewInit {
   @ViewChild('scrollableContent') scrollableContent: ElementRef;
 
   ngAfterViewInit(): void {
-    this.calculateTableViewPortHeight();
+    this.calculateViewPortHeight();
   }
 
   onTaskCreated(): void{
@@ -52,7 +52,7 @@ export class TasksScreenComponent implements AfterViewInit {
     this.taskDeleted.next(task);
   }
 
-  private calculateTableViewPortHeight(): void {
+  private calculateViewPortHeight(): void {
     const documentHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
     const stickyHeader = (this.stickyHeader.nativeElement as HTMLDivElement);
     const scrollableContent = (this.scrollableContent.nativeElement as HTMLDivElement);

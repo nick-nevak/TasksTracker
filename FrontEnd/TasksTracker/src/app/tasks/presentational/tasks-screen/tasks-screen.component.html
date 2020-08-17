@@ -13,12 +13,12 @@
       </button>
     </div>
     <ng-scrollbar
-      track="all"
-      pointerEventsMethod="scrollbar"
+      track="vertical"
+      visibility="hover"
     >
       <div
         class="scrollable-content"
-        #scrollableContent
+        #scrollableContent       
       >
         <app-tasks-list
           [tasks]="tasks"

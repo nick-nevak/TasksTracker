@@ -1,22 +1,14 @@
 <form [formGroup]="taskForm">
-  <div class="row row-cols-2">
-    <mat-form-field
-      class="col"
-      appearance="standard"
-    >
-      <mat-label>Title</mat-label>
-      <input
-        formControlName="title"
-        matInput
-        placeholder="Placeholder"
-        autocomplete="off"
-      >
-    </mat-form-field>
-    <div class="col">
-      <mat-checkbox formControlName="status">Status</mat-checkbox>
+
+  <div
+    class="row sticky-header"
+    #stickyHeader
+  >
+    <div class="col-1 checkbox-container">
+      <mat-checkbox formControlName="status"></mat-checkbox>
     </div>
     <mat-form-field
-      class="col"
+      class="col-5"
       appearance="standard"
     >
       <mat-label>Due date</mat-label>
@@ -34,7 +26,7 @@
       <mat-datepicker #datepicker></mat-datepicker>
     </mat-form-field>
     <mat-form-field
-      class="col"
+      class="col-5"
       appearance="standard"
     >
       <mat-label>Priority</mat-label>
@@ -49,22 +41,48 @@
     </mat-form-field>
   </div>
 
-  <div class="row">
-    <mat-form-field
-      class="col"
-      appearance="standard"
+  <ng-scrollbar
+    track="vertical"
+    visibility="hover"
+    pointerEventsMethod="scrollbar"
+  >
+    <div
+      class="scrollable-content"
+      #scrollableContent
     >
-      <mat-label>Description</mat-label>
-      <textarea
-        formControlName="description"
-        matInput
-        cdkTextareaAutosize
-        cdkAutosizeMinRows="1"
-        cdkAutosizeMaxRows="1000"
-        placeholder="Placeholder"
-      ></textarea>
-    </mat-form-field>
-  </div>
+      <div class="row">
+        <mat-form-field
+          class="col"
+          appearance="standard"
+        >
+          <mat-label>Title</mat-label>
+          <input
+            formControlName="title"
+            matInput
+            placeholder="Placeholder"
+            autocomplete="off"
+          >
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field
+          class="col"
+          appearance="standard"
+        >
+          <mat-label>Description</mat-label>
+          <textarea
+            formControlName="description"
+            class="description-input"
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="1000"
+            placeholder="Placeholder"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-scrollbar>
 
   <div class="row justify-content-end">
     <div class="col-3">
