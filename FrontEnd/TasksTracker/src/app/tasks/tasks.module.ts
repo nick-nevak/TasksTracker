@@ -12,6 +12,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { TasksScreenComponent } from './presentational/tasks-screen/tasks-screen.component';
 import { TasksScreenContainerComponent } from './container/tasks-screen-container/tasks-screen-container.component';
 import { TasksListComponent } from './presentational/tasks-list/tasks-list.component';
+import { TaskCreatorComponent } from './presentational/task-creator/task-creator.component';
 
 
 
@@ -22,7 +23,8 @@ import { TasksListComponent } from './presentational/tasks-list/tasks-list.compo
     TasksListComponent,
     TaskEditFormComponent,
     TasksScreenComponent,
-    TasksScreenContainerComponent
+    TasksScreenContainerComponent,
+    TaskCreatorComponent
   ],
   imports: [
     CommonModule,
