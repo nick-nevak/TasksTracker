@@ -34,7 +34,7 @@ export class TasksEffects {
   createTaskSuccess$ = this.actions$
     .pipe(
       ofType(createTaskSuccess),
-      tap(_ => this.router.navigate(['/']))
+      tap(_ => this.router.navigate(['/tasks']))
     );
 
   @Effect()
@@ -59,6 +59,13 @@ export class TasksEffects {
       ofType(deleteTask),
       switchMap(({ taskId }) => this.tasksHttpService.deleteTask(taskId)),
       map(deletedTask => deleteTaskSuccess({ taskId: deletedTask }))
+    );
+
+  @Effect({ dispatch: false })
+  deleteTaskSuccess$ = this.actions$
+    .pipe(
+      ofType(deleteTaskSuccess),
+      tap(_ => this.router.navigate(['/tasks']))
     );
 
   @Effect()
