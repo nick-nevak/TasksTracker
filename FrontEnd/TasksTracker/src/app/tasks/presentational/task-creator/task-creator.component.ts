@@ -19,7 +19,10 @@ export class TaskCreatorComponent implements OnInit {
     this.createForm();
   }
 
-  submit(): void{
+  submit(): void {
+    if (!this.taskForm.get('title').value){
+      return;
+    }
     this.taskCeated.next(this.taskForm.value);
     this.createForm();
   }

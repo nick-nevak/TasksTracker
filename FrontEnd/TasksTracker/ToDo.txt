@@ -1,0 +1,6 @@
+Add side menu with groupings
+Add grouping by date (today, tomorrow, 7 days, later)
+Group by completed
+Color checkbox according to importance
+Order by importance
+Save grouping state in local storage
