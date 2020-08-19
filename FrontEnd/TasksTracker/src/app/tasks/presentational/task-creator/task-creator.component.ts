@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Task } from 'src/app/core/models/task';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-task-creator',
@@ -10,13 +11,28 @@ export class TaskCreatorComponent implements OnInit {
 
   @Output() taskCeated = new EventEmitter<Task>();
 
-  constructor() { }
+  taskForm: FormGroup;
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.createForm();
   }
 
-  submit(task: Task): void{
-    this.taskCeated.next(task);
+  submit(): void{
+    debugger;
+    this.taskCeated.next(this.taskForm.value);
+  }
+
+  private createForm(): void {
+    this.taskForm = this.fb.group({
+      title: '',
+      status: '',
+      dueDate: '',
+      description: '',
+      priority: ''
+    });
+    this.taskForm.get('status').patchValue(false, { emitEvent: false });
   }
 
 }

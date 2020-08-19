@@ -1,4 +1,10 @@
-<mat-form-field appearance="fill" style="width: 100%;">
-  <!-- <mat-label>Outline form field</mat-label> -->
-  <input matInput placeholder="Add Task, press Enter to save">
-</mat-form-field>
+<form [formGroup]="taskForm" (submit)="submit()">
+  <mat-form-field appearance="fill">
+    <input
+      formControlName="title"
+      matInput
+      placeholder="Add Task, press Enter to save"
+      autocomplete="off"
+    >
+  </mat-form-field>
+</form>
