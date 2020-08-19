@@ -8,7 +8,8 @@ export interface TasksState extends EntityState<Task> {
 }
 
 export const tasksAdapter: EntityAdapter<Task> = createEntityAdapter<Task>({
-  selectId: (task: Task) => task._id
+  selectId: (task: Task) => task._id,
+  sortComparer: (a: Task, b: Task) => a._id < b._id ? 1 : -1,
 });
 
 const initialState: TasksState = tasksAdapter.getInitialState({
