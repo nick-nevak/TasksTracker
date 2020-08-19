@@ -20,8 +20,8 @@ export class TaskCreatorComponent implements OnInit {
   }
 
   submit(): void{
-    debugger;
     this.taskCeated.next(this.taskForm.value);
+    this.createForm();
   }
 
   private createForm(): void {

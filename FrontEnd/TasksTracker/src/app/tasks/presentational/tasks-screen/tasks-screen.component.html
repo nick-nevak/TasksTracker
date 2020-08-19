@@ -5,7 +5,7 @@
       class="sticky-header"
       #stickyHeader
     >
-      <app-task-creator></app-task-creator>
+      <app-task-creator (taskCeated)="onTaskCreated($event)"></app-task-creator>
       <!-- <button
         mat-button
         (click)="onTaskCreated()"

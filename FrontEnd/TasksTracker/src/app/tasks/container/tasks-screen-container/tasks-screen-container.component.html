@@ -4,6 +4,6 @@
   [selectedTask]="selectedTask$ | async"
   (taskStatusUpdated)="onTaskStatusUpdated($event)"
   (taskSelected)="onTaskSelected($event)"
-  (taskCreated)="onTaskCreated()"
+  (taskCreated)="onTaskCreated($event)"
   (taskDeleted)="onTaskDeleted($event)"
 ></app-tasks-screen>

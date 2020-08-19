@@ -36,8 +36,8 @@ export class TasksScreenComponent implements AfterViewInit {
     this.calculateViewPortHeight();
   }
 
-  onTaskCreated(): void{
-    this.taskCreated.next();
+  onTaskCreated(task: Task): void{
+    this.taskCreated.next(task);
   }
 
   onTaskStatusUpdated(event: { task: Task, updatedStatus: boolean }): void {

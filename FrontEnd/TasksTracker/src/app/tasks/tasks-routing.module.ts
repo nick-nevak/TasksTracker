@@ -14,10 +14,6 @@ const routes: Routes = [
         component: TasksScreenContainerComponent,
         children: [
           {
-            path: 'create',
-            component: TaskEditContainerComponent,
-          },
-          {
             path: ':id',
             component: TaskEditContainerComponent,
           },

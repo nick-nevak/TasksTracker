@@ -34,7 +34,7 @@ export class TasksEffects {
   createTaskSuccess$ = this.actions$
     .pipe(
       ofType(createTaskSuccess),
-      tap(_ => this.router.navigate(['/tasks']))
+      tap(({ task }) => this.router.navigate(['/tasks', task._id]))
     );
 
   @Effect()

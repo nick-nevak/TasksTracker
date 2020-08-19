@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } fr
 import { BaseDestroyableComponent } from '../../../core/base-classes/base-destroyable';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
-import { loadTasks, deleteTask, patchTask } from '../../../core/core-store/tasks/tasks.actions';
+import { loadTasks, deleteTask, patchTask, createTask } from '../../../core/core-store/tasks/tasks.actions';
 import { selectTasks, selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -34,8 +34,9 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
     this.store.dispatch(loadPriorities());
   }
 
-  onTaskCreated(): void {
-    this.router.navigate(['/tasks/create']);
+  onTaskCreated(task: Task): void {
+    this.store.dispatch(createTask({task}));
+    // this.router.navigate(['/tasks/create']);
   }
 
   onTaskStatusUpdated(event: { task: Task, updatedStatus: boolean }): void {
