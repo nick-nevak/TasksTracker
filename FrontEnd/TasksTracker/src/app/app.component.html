@@ -1,11 +1,41 @@
 <mat-sidenav-container>
-    <mat-sidenav #sidenav [mode]="'side'">
-        TestTestTestTestTestTestTestTestTestTest
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <button mat-icon-button (click)="sidenav.toggle()" class="ml-2">
-            <mat-icon>menu</mat-icon>
-          </button>
-        <router-outlet></router-outlet>
-    </mat-sidenav-content>
+  <mat-sidenav
+    #sidenav
+    [mode]="'side'"
+    opened="true"
+  >
+    <mat-nav-list>
+      <mat-list-item>
+        <mat-icon>today</mat-icon>
+        <a>Today</a>
+      </mat-list-item>
+      <mat-list-item>
+
+        <mat-icon>date_range</mat-icon>
+        <a>Next 7 days</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>inbox</mat-icon>
+        <a>Inbox</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>done</mat-icon>
+        <a>Completed</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>delete</mat-icon>
+        <a>Trash</a>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <button
+      mat-icon-button
+      (click)="sidenav.toggle()"
+      class="ml-2"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>

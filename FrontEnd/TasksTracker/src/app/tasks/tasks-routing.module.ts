@@ -6,11 +6,11 @@ import { TasksScreenContainerComponent } from './container/tasks-screen-containe
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'tasks',
     component: TasksComponent,
     children: [
       {
-        path: '',
+        path: 'today',
         component: TasksScreenContainerComponent,
         children: [
           {
@@ -18,7 +18,8 @@ const routes: Routes = [
             component: TaskEditContainerComponent,
           },
         ]
-      }
+      },
+      { path: '', redirectTo: 'today', pathMatch: 'full' },
     ]
   }
 ];

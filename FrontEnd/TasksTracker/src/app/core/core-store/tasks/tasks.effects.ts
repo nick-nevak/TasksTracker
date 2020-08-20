@@ -4,15 +4,17 @@ import { tap, map, switchMap } from 'rxjs/operators';
 import { TasksHttpService } from '../../services/tasks-http.service';
 import { loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess,
          loadTaskSuccess, loadTask, clearSelectedTask, patchTask, patchTaskSuccess } from './tasks.actions';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Injectable()
 export class TasksEffects {
 
-  constructor(private actions$: Actions,
-              private tasksHttpService: TasksHttpService,
-              private router: Router) { }
+  constructor(
+    private actions$: Actions,
+    private tasksHttpService: TasksHttpService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   @Effect()
   loadTasks$ = this.actions$
@@ -34,7 +36,9 @@ export class TasksEffects {
   createTaskSuccess$ = this.actions$
     .pipe(
       ofType(createTaskSuccess),
-      tap(({ task }) => this.router.navigate(['/tasks', task._id]))
+      tap(({ task }) => {
+        this.router.navigate(['/tasks/today/', task._id ]);
+      })
     );
 
   @Effect()
@@ -65,7 +69,7 @@ export class TasksEffects {
   deleteTaskSuccess$ = this.actions$
     .pipe(
       ofType(deleteTaskSuccess),
-      tap(_ => this.router.navigate(['/tasks']))
+      tap(_ => this.router.navigate(['/tasks/today']))
     );
 
   @Effect()

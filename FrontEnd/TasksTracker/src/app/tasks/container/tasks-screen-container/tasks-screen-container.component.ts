@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { loadTasks, deleteTask, patchTask, createTask } from '../../../core/core-store/tasks/tasks.actions';
 import { selectTasks, selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Task } from 'src/app/core/models/task';
 import { Priority } from 'src/app/core/models/priority';
 import { selectPrioritiesDictionary } from 'src/app/core/core-store/priorities/priorities.selectors';
@@ -25,7 +25,8 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
 
   constructor(
     private store: Store<AppState>,
-    private router: Router) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
     super();
   }
 
@@ -36,7 +37,6 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
 
   onTaskCreated(task: Task): void {
     this.store.dispatch(createTask({task}));
-    // this.router.navigate(['/tasks/create']);
   }
 
   onTaskStatusUpdated(event: { task: Task, updatedStatus: boolean }): void {
@@ -46,7 +46,7 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
   }
 
   onTaskSelected(task: Task): void {
-    this.router.navigate(['/tasks', `${task._id}`]);
+    this.router.navigate(['./', task._id], { relativeTo: this.activatedRoute });
   }
 
   onTaskDeleted(task: Task): void {
