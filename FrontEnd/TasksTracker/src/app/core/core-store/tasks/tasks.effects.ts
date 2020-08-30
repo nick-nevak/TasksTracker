@@ -9,7 +9,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppState } from '../core-store.module';
 import { Store } from '@ngrx/store';
-import { selectUrl } from '../router/router.selectors';
+import { selectUrl, selectRouteParams } from '../router/router.selectors';
 
 
 @Injectable()
@@ -41,9 +41,14 @@ export class TasksEffects {
   createTaskSuccess$ = this.actions$
     .pipe(
       ofType(createTaskSuccess),
-      withLatestFrom(this.store.select(selectUrl)),
-      tap(([{ task }, currentUrl]) => {
-        const urlToNavigate = `${currentUrl}/${task._id}`;
+      withLatestFrom(this.store.select(selectUrl), this.store.select(selectRouteParams)),
+      tap(([{ task }, currentUrl, routeParams]) => {
+        debugger;
+        const isTaskAlreadySelected = !!routeParams.id;
+        // TODO use selected task from state
+        const urlToNavigate = isTaskAlreadySelected
+          ? currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1) + task._id
+          : `${currentUrl}/${task._id}`;
         this.router.navigateByUrl(urlToNavigate);
       }),
       //tap(({ task }) => this.router.navigate(['./', task._id], { relativeTo: this.activatedRoute }))
