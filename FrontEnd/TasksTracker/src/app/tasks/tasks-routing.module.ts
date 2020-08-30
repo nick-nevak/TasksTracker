@@ -4,6 +4,17 @@ import { TasksComponent } from './tasks.component';
 import { TaskEditContainerComponent } from './container/task-edit-container/task-edit-container.component';
 import { TasksScreenContainerComponent } from './container/tasks-screen-container/tasks-screen-container.component';
 
+
+const childRouteConfig = {
+  component: TasksScreenContainerComponent,
+  children: [
+    {
+      path: ':id',
+      component: TaskEditContainerComponent,
+    },
+  ]
+};
+
 const routes: Routes = [
   {
     path: 'tasks',
@@ -11,23 +22,23 @@ const routes: Routes = [
     children: [
       {
         path: 'today',
-        component: TasksScreenContainerComponent,
-        children: [
-          {
-            path: ':id',
-            component: TaskEditContainerComponent,
-          },
-        ]
+        ...childRouteConfig
       },
       {
         path: 'week',
-        component: TasksScreenContainerComponent,
-        children: [
-          {
-            path: ':id',
-            component: TaskEditContainerComponent,
-          },
-        ]
+        ...childRouteConfig
+      },
+      {
+        path: 'all',
+        ...childRouteConfig
+      },
+      {
+        path: 'completed',
+        ...childRouteConfig
+      },
+      {
+        path: 'trash',
+        ...childRouteConfig
       },
       { path: '', redirectTo: 'today', pathMatch: 'full' },
     ]

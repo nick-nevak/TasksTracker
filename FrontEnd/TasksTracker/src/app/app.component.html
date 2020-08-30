@@ -5,24 +5,23 @@
     opened="true"
   >
     <mat-nav-list>
-      <mat-list-item>
+      <mat-list-item routerLink="/tasks/today" routerLinkActive="active">
         <mat-icon>today</mat-icon>
         <a>Today</a>
       </mat-list-item>
-      <mat-list-item>
-
+      <mat-list-item routerLink="/tasks/week" routerLinkActive="active">
         <mat-icon>date_range</mat-icon>
         <a>Next 7 days</a>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item routerLink="/tasks/all" routerLinkActive="active">
         <mat-icon>inbox</mat-icon>
         <a>Inbox</a>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item routerLink="/tasks/completed" routerLinkActive="active">
         <mat-icon>done</mat-icon>
         <a>Completed</a>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item routerLink="/tasks/trash" routerLinkActive="active">
         <mat-icon>delete</mat-icon>
         <a>Trash</a>
       </mat-list-item>
