@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { tap, map, switchMap } from 'rxjs/operators';
+import { tap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { TasksHttpService } from '../../services/tasks-http.service';
-import { loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess,
-         loadTaskSuccess, loadTask, clearSelectedTask, patchTask, patchTaskSuccess } from './tasks.actions';
+import {
+  loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess,
+  loadTaskSuccess, loadTask, clearSelectedTask, patchTask, patchTaskSuccess
+} from './tasks.actions';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AppState } from '../core-store.module';
+import { Store } from '@ngrx/store';
+import { selectUrl } from '../router/router.selectors';
 
 
 @Injectable()
@@ -14,7 +19,7 @@ export class TasksEffects {
     private actions$: Actions,
     private tasksHttpService: TasksHttpService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private store: Store<AppState>) { }
 
   @Effect()
   loadTasks$ = this.actions$
@@ -36,9 +41,12 @@ export class TasksEffects {
   createTaskSuccess$ = this.actions$
     .pipe(
       ofType(createTaskSuccess),
-      tap(({ task }) => {
-        this.router.navigate(['/tasks/today/', task._id ]);
-      })
+      withLatestFrom(this.store.select(selectUrl)),
+      tap(([{ task }, currentUrl]) => {
+        const urlToNavigate = `${currentUrl}/${task._id}`;
+        this.router.navigateByUrl(urlToNavigate);
+      }),
+      //tap(({ task }) => this.router.navigate(['./', task._id], { relativeTo: this.activatedRoute }))
     );
 
   @Effect()
@@ -69,7 +77,12 @@ export class TasksEffects {
   deleteTaskSuccess$ = this.actions$
     .pipe(
       ofType(deleteTaskSuccess),
-      tap(_ => this.router.navigate(['/tasks/today']))
+      withLatestFrom(this.store.select(selectUrl)),
+      tap(([, currentUrl]) => {
+        const urlToNavigate = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
+        this.router.navigateByUrl(urlToNavigate);
+      }),
+      // tap(_ => this.router.navigate(['../'], { relativeTo: this.activatedRoute }))
     );
 
   @Effect()

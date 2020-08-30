@@ -6,15 +6,18 @@ import { TasksEffects } from './tasks/tasks.effects';
 import { PrioritiesEffects } from './priorities/priorities.effects';
 import { tasksReducer, TasksState } from './tasks/tasks.reducer';
 import { PrioritiesState, prioritiesReducer } from './priorities/priorities.reducer';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
 export interface AppState {
   tasksState: TasksState;
   prioritiesState: PrioritiesState;
+  router: any;
 }
 
 const reducers = {
   tasksState: tasksReducer,
-  prioritiesState: prioritiesReducer
+  prioritiesState: prioritiesReducer,
+  router: routerReducer
 };
 
 @NgModule({
@@ -22,7 +25,8 @@ const reducers = {
   imports: [
     CommonModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([TasksEffects, PrioritiesEffects])
+    EffectsModule.forRoot([TasksEffects, PrioritiesEffects]),
+    StoreRouterConnectingModule.forRoot()
   ]
 })
 export class CoreStoreModule { }

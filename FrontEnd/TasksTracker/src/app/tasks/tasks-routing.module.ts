@@ -19,6 +19,16 @@ const routes: Routes = [
           },
         ]
       },
+      {
+        path: 'week',
+        component: TasksScreenContainerComponent,
+        children: [
+          {
+            path: ':id',
+            component: TaskEditContainerComponent,
+          },
+        ]
+      },
       { path: '', redirectTo: 'today', pathMatch: 'full' },
     ]
   }
