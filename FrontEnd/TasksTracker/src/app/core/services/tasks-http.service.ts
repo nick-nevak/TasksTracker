@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
 import { Task } from '../models/task';
 import { Observable } from 'rxjs';
+import { GetTasksParams } from '../models/method-parameters/get-tasks-params';
 
 
 export const baseUrl = 'http://localhost:3001';
@@ -25,9 +26,11 @@ export class TasksHttpService {
       );
   }
 
-  getTasks(paramObj?: {includePriority: boolean}): Observable<Task[]> {
+  getTasks(paramObj: GetTasksParams): Observable<Task[]> {
     const params = new HttpParams()
-      .set('includePriority', `${paramObj?.includePriority}`);
+      .set('includePriority', `${paramObj.includePriority}`)
+      .set('fromDate', `${paramObj.fromDate}`)
+      .set('toDate', `${paramObj.toDate}`);
 
     return this.httpClient.get(tasksUrl, { params })
       .pipe(

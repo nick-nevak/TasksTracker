@@ -3,6 +3,17 @@ import { Task } from '../../models/task';
 
 const LOAD = '[Tasks] LOAD';
 const LOAD_SUCCESS = '[Tasks] LOAD_SUCCESS';
+const LOAD_ALL = '[Tasks] LOAD_ALL';
+const LOAD_ALL_SUCCESS = '[Tasks] LOAD_ALL_SUCCESS';
+const LOAD_TODAY = '[Tasks] LOAD_TODAY';
+const LOAD_TODAY_SUCCESS = '[Tasks] LOAD_TODAY_SUCCESS';
+const LOAD_WEEK = '[Tasks] LOAD_WEEK';
+const LOAD_WEEK_SUCCESS = '[Tasks] LOAD_WEEK_SUCCESS';
+const LOAD_COMPLETED = '[Tasks] LOAD_COMPLETED';
+const LOAD_COMPLETED_SUCCESS = '[Tasks] LOAD_COMPLETED_SUCCESS';
+const LOAD_TRASH = '[Tasks] LOAD_TRASH';
+const LOAD_TRASH_SUCCESS = '[Tasks] LOAD_TRASH_SUCCESS';
+
 const CREATE = '[Task] CREATE';
 const CREATE_SUCCESS = '[Task] CREATE_SUCCESS';
 const UPDATE = '[Task] UPDATE';
@@ -21,6 +32,51 @@ export const loadTasks = createAction(
 
 export const loadTasksSuccess = createAction(
   LOAD_SUCCESS,
+  props<{tasks: Task[]}>()
+);
+
+export const loadAllTasks = createAction(
+  LOAD_ALL
+);
+
+export const loadAllTasksSuccess = createAction(
+  LOAD_ALL_SUCCESS,
+  props<{tasks: Task[]}>()
+);
+
+export const loadTodayTasks = createAction(
+  LOAD_TODAY
+);
+
+export const loadTodayTasksSuccess = createAction(
+  LOAD_TODAY_SUCCESS,
+  props<{tasks: Task[]}>()
+);
+
+export const loadWeekTasks = createAction(
+  LOAD_WEEK
+);
+
+export const loadWeekTasksSuccess = createAction(
+  LOAD_WEEK_SUCCESS,
+  props<{tasks: Task[]}>()
+);
+
+export const loadCompletedTasks = createAction(
+  LOAD_COMPLETED
+);
+
+export const loadCompletedTasksSuccess = createAction(
+  LOAD_COMPLETED_SUCCESS,
+  props<{tasks: Task[]}>()
+);
+
+export const loadTrashTasks = createAction(
+  LOAD_TRASH
+);
+
+export const loadTrashTasksSuccess = createAction(
+  LOAD_TRASH_SUCCESS,
   props<{tasks: Task[]}>()
 );
 

@@ -4,7 +4,7 @@ import { tap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { TasksHttpService } from '../../services/tasks-http.service';
 import {
   loadTasks, loadTasksSuccess, createTask, createTaskSuccess, updateTask, updateTaskSuccess, deleteTask, deleteTaskSuccess,
-  loadTaskSuccess, loadTask, clearSelectedTask, patchTask, patchTaskSuccess
+  loadTaskSuccess, loadTask, clearSelectedTask, patchTask, patchTaskSuccess, loadAllTasks, loadTodayTasks, loadWeekTasks, loadCompletedTasks, loadTrashTasks
 } from './tasks.actions';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppState } from '../core-store.module';
@@ -25,7 +25,67 @@ export class TasksEffects {
   loadTasks$ = this.actions$
     .pipe(
       ofType(loadTasks),
-      switchMap(() => this.tasksHttpService.getTasks({ includePriority: false })),
+      switchMap(() => {
+        return this.tasksHttpService.getTasks({});
+      }),
+      map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
+    );
+
+  @Effect()
+  loadAllTasks$ = this.actions$
+    .pipe(
+      ofType(loadAllTasks),
+      switchMap(() => {
+        return this.tasksHttpService.getTasks({});
+      }),
+      map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
+    );
+
+  @Effect()
+  loadTodayTasks$ = this.actions$
+    .pipe(
+      ofType(loadTodayTasks),
+      switchMap(() => {
+        const fromDate = new Date();
+        fromDate.setHours(0, 0, 0, 0);
+        const toDate = new Date();
+        toDate.setDate(fromDate.getDate() + 1);
+        return this.tasksHttpService.getTasks({ includePriority: false, fromDate, toDate });
+      }),
+      map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
+    );
+
+  @Effect()
+  loadWeekTasks$ = this.actions$
+    .pipe(
+      ofType(loadWeekTasks),
+      switchMap(() => {
+        const fromDate = new Date();
+        fromDate.setHours(0, 0, 0, 0);
+        const toDate = new Date();
+        toDate.setDate(fromDate.getDate() + 7);
+        return this.tasksHttpService.getTasks({ includePriority: false, fromDate, toDate });
+      }),
+      map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
+    );
+
+  @Effect()
+  loadCompletedTasks$ = this.actions$
+    .pipe(
+      ofType(loadCompletedTasks),
+      switchMap(() => {
+        return this.tasksHttpService.getTasks({ filter: { status: true } });
+      }),
+      map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
+    );
+
+  @Effect()
+  loadTrashTasks$ = this.actions$
+    .pipe(
+      ofType(loadTrashTasks),
+      switchMap(() => {
+        return this.tasksHttpService.getTasks({ filter: { isDeleted: true } });
+      }),
       map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
     );
 
@@ -43,7 +103,6 @@ export class TasksEffects {
       ofType(createTaskSuccess),
       withLatestFrom(this.store.select(selectUrl), this.store.select(selectRouteParams)),
       tap(([{ task }, currentUrl, routeParams]) => {
-        debugger;
         const isTaskAlreadySelected = !!routeParams.id;
         // TODO use selected task from state
         const urlToNavigate = isTaskAlreadySelected
@@ -51,7 +110,7 @@ export class TasksEffects {
           : `${currentUrl}/${task._id}`;
         this.router.navigateByUrl(urlToNavigate);
       }),
-      //tap(({ task }) => this.router.navigate(['./', task._id], { relativeTo: this.activatedRoute }))
+      // tap(({ task }) => this.router.navigate(['./', task._id], { relativeTo: this.activatedRoute }))
     );
 
   @Effect()

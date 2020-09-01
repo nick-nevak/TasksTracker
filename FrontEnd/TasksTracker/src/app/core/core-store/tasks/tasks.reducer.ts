@@ -20,10 +20,18 @@ const initialState: TasksState = tasksAdapter.getInitialState({
 
 const reducer = createReducer(
   initialState,
-  on(TasksActions.loadTasksSuccess, (state, { tasks }) => {
-    const clearedState = tasksAdapter.removeAll(state);
-    return tasksAdapter.addMany(tasks, clearedState);
-  }),
+  on(
+    TasksActions.loadTasksSuccess,
+    TasksActions.loadAllTasksSuccess,
+    TasksActions.loadTodayTasksSuccess,
+    TasksActions.loadWeekTasksSuccess,
+    TasksActions.loadCompletedTasksSuccess,
+    TasksActions.loadTrashTasksSuccess,
+    (state, { tasks }) => {
+      const clearedState = tasksAdapter.removeAll(state);
+      return tasksAdapter.addMany(tasks, clearedState);
+    }
+  ),
   on(TasksActions.createTaskSuccess, (state, { task }) => {
     return tasksAdapter.addOne(task, state);
   }),
