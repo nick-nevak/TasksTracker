@@ -2,15 +2,17 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } fr
 import { BaseDestroyableComponent } from '../../../core/base-classes/base-destroyable';
 import { AppState } from '../../../core/core-store/core-store.module';
 import { Store } from '@ngrx/store';
-import { loadTasks, deleteTask, patchTask, createTask } from '../../../core/core-store/tasks/tasks.actions';
+import { deleteTask, patchTask, createTask, loadWeekTasks, loadTodayTasks, loadCompletedTasks, loadTrashTasks, loadAllTasks } from '../../../core/core-store/tasks/tasks.actions';
 import { selectTasks, selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { Task } from 'src/app/core/models/task';
 import { Priority } from 'src/app/core/models/priority';
 import { selectPrioritiesDictionary } from 'src/app/core/core-store/priorities/priorities.selectors';
 import { Dictionary } from '@ngrx/entity';
 import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.actions';
+import { tap, filter, map, takeUntil } from 'rxjs/operators';
+import { TasksFilter } from 'src/app/core/models/enums/tasks-filter';
 
 @Component({
   selector: 'app-tasks-screen-container',
@@ -31,12 +33,12 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadTasks());
+    this.trackUrlChangesAndLoadTasks();
     this.store.dispatch(loadPriorities());
   }
 
   onTaskCreated(task: Task): void {
-    this.store.dispatch(createTask({task}));
+    this.store.dispatch(createTask({ task }));
   }
 
   onTaskStatusUpdated(event: { task: Task, updatedStatus: boolean }): void {
@@ -51,6 +53,36 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
 
   onTaskDeleted(task: Task): void {
     this.store.dispatch(deleteTask({ taskId: task._id }));
+  }
+
+  private trackUrlChangesAndLoadTasks(): void {
+    this.activatedRoute.url
+      .pipe(
+        filter(urlSegments => !!urlSegments?.length),
+        map(urlSegments => urlSegments[0].path),
+        tap(currentPath => this.loadTasksAccordingToCurrentPath(currentPath)),
+        takeUntil(this.componentAlive$)
+      ).subscribe();
+  }
+
+  private loadTasksAccordingToCurrentPath(path: string): void {
+    switch (path) {
+      case TasksFilter.All:
+        this.store.dispatch(loadAllTasks());
+        break;
+      case TasksFilter.Week:
+        this.store.dispatch(loadWeekTasks());
+        break;
+      case TasksFilter.Today:
+        this.store.dispatch(loadTodayTasks());
+        break;
+      case TasksFilter.Completed:
+        this.store.dispatch(loadCompletedTasks());
+        break;
+      case TasksFilter.Trash:
+        this.store.dispatch(loadTrashTasks());
+        break;
+    }
   }
 
 }

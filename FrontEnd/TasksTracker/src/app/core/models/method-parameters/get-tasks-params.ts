@@ -4,5 +4,6 @@ export interface GetTasksParams {
   includePriority?: boolean;
   fromDate?: Date;
   toDate?: Date;
-  filter?: GetTasksFilterParams;
+  filterByStatus?: boolean;
+  filterByDeleted?: boolean;
 }

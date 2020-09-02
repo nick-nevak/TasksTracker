@@ -10,6 +10,7 @@ const TaskSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Priority'
   },
+  isDeleted: Boolean
 });
 
 const Task = mongoose.model('Task', TaskSchema);

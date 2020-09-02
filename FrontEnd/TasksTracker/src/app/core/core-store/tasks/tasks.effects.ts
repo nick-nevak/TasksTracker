@@ -74,7 +74,7 @@ export class TasksEffects {
     .pipe(
       ofType(loadCompletedTasks),
       switchMap(() => {
-        return this.tasksHttpService.getTasks({ filter: { status: true } });
+        return this.tasksHttpService.getTasks({ filterByStatus: true });
       }),
       map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
     );
@@ -84,7 +84,7 @@ export class TasksEffects {
     .pipe(
       ofType(loadTrashTasks),
       switchMap(() => {
-        return this.tasksHttpService.getTasks({ filter: { isDeleted: true } });
+        return this.tasksHttpService.getTasks({ filterByDeleted: true });
       }),
       map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
     );
