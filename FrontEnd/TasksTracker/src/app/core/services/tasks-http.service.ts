@@ -29,10 +29,10 @@ export class TasksHttpService {
   getTasks(paramObj: GetTasksParams): Observable<Task[]> {
     const params = new HttpParams()
       .set('includePriority', `${paramObj.includePriority ?? ''}`)
-      .set('fromDate', `${paramObj.fromDate ?? ''}`)
-      .set('toDate', `${paramObj.toDate ?? ''}`)
-      .set('filterByStatus', `${paramObj.filterByStatus}`)
-      .set('filterByDeleted', `${paramObj.filterByDeleted}`);
+      .set('fromDate', `${paramObj.fromDate?.toISOString() ?? ''}`)
+      .set('toDate', `${paramObj.toDate?.toISOString() ?? ''}`)
+      .set('filterByStatus', `${paramObj.filterByStatus ?? ''}`)
+      .set('filterByDeleted', `${paramObj.filterByDeleted ?? ''}`);
 
     return this.httpClient.get(tasksUrl, { params })
       .pipe(

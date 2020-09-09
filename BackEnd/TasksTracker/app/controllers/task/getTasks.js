@@ -1,19 +1,19 @@
 const Tasks = require('../../models/Task');
 
 module.exports = async (request, response) => {
-  const queryParams = request.query;
+  const { includePriority, fromDate, toDate, filterByStatus, filterByDeleted } = request.query;
   let query = Tasks.find().sort({ _id: -1 });
-  if (queryParams.includePriority) {
+  if (includePriority == 'true') {
     query = query.populate('priority')
   };
-  // if(queryParams.fromDate && queryParams.toDate){
-  //   //query = query.filt
-  // }
-  if(queryParams.filterByStatus == 'true'){
-    query = query.find({ status: true});
+  if (fromDate && toDate) {
+    query = query.find({ dueDate: { $lte: toDate } });
   }
-  if(queryParams.filterByDeleted == 'true'){
-    query = query.find({ isDeleted: true});
+  if (filterByStatus == 'true') {
+    query = query.find({ status: true });
+  }
+  if (filterByDeleted == 'true') {
+    query = query.find({ isDeleted: true });
   }
   const result = await query;
   response.json(result);

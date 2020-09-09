@@ -22,16 +22,6 @@ export class TasksEffects {
     private store: Store<AppState>) { }
 
   @Effect()
-  loadTasks$ = this.actions$
-    .pipe(
-      ofType(loadTasks),
-      switchMap(() => {
-        return this.tasksHttpService.getTasks({});
-      }),
-      map(loadedTasks => loadTasksSuccess({ tasks: loadedTasks }))
-    );
-
-  @Effect()
   loadAllTasks$ = this.actions$
     .pipe(
       ofType(loadAllTasks),
@@ -49,6 +39,7 @@ export class TasksEffects {
         const fromDate = new Date();
         fromDate.setHours(0, 0, 0, 0);
         const toDate = new Date();
+        toDate.setHours(0, 0, 0, 0);
         toDate.setDate(fromDate.getDate() + 1);
         return this.tasksHttpService.getTasks({ includePriority: false, fromDate, toDate });
       }),
@@ -63,6 +54,7 @@ export class TasksEffects {
         const fromDate = new Date();
         fromDate.setHours(0, 0, 0, 0);
         const toDate = new Date();
+        toDate.setHours(0, 0, 0, 0);
         toDate.setDate(fromDate.getDate() + 7);
         return this.tasksHttpService.getTasks({ includePriority: false, fromDate, toDate });
       }),
