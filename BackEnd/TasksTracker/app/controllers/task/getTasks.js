@@ -6,14 +6,14 @@ module.exports = async (request, response) => {
   if (queryParams.includePriority) {
     query = query.populate('priority')
   };
-  if(queryParams.fromDate && queryParams.toDate){
-    //query = query.filt
+  // if(queryParams.fromDate && queryParams.toDate){
+  //   //query = query.filt
+  // }
+  if(queryParams.filterByStatus == 'true'){
+    query = query.find({ status: true});
   }
-  if(queryParams.filterByStatus){
-    //query.find({ status: queryParams.filterByStatus})
-  }
-  if(queryParams.filterByDeleted){
-
+  if(queryParams.filterByDeleted == 'true'){
+    query = query.find({ isDeleted: true});
   }
   const result = await query;
   response.json(result);
