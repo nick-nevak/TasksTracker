@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
 import { Priority } from '../models/priority';
 import { Observable } from 'rxjs';
-import { baseUrl } from './tasks-http.service';
+import { baseUrl } from '../../core/const/base-url';
 
 const priorityUrl = `${baseUrl}/priority`;
 const prioritiesUrl = `${baseUrl}/priorities`;

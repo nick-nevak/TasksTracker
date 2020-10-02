@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TasksTracker.Database.Context;
@@ -14,10 +15,13 @@ namespace TasksTracker.Controllers
     public class TasksController : ControllerBase
     {
         private readonly DatabaseContext db;
+        private readonly IMapper mapper;
 
-        public TasksController(DatabaseContext db)
+        public TasksController(DatabaseContext db,
+                               IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -27,10 +31,10 @@ namespace TasksTracker.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Task> Get(bool includePriority, DateTime toDate,bool filterByStatus, bool filterByDeleted)
+        public IEnumerable<Task> Get(bool? includePriority, DateTime? toDate, bool? filterByStatus, bool? filterByDeleted)
         {
             var tasks = db.Tasks.AsQueryable();
-            if (includePriority)
+            if (includePriority == true)
             {
                 tasks = tasks.Include(t => t.Priority);
             }
@@ -38,11 +42,11 @@ namespace TasksTracker.Controllers
             {
                 tasks = tasks.Where(t => t.DueDate <= toDate);
             }
-            if (filterByStatus)
+            if (filterByStatus == true)
             {
                 tasks = tasks.Where(t => t.Status == true);
             }
-            if (filterByDeleted)
+            if (filterByDeleted == true)
             {
                 tasks = tasks.Where(t => t.IsDeleted == true);
             }
@@ -86,5 +90,10 @@ namespace TasksTracker.Controllers
             db.SaveChanges();
             return id;
         }
+    }
+
+    public class TaskRequestTest
+    {
+        public string Title { get; set; }
     }
 }

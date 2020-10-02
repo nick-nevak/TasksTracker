@@ -9,12 +9,12 @@ namespace TasksTracker.Models.DatabaseModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public string Title { get; set; }
-        public bool Status { get; set; }
-        public DateTime DueDate { get; set; }
+        public bool? Status { get; set; }
+        public DateTime? DueDate { get; set; }
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
 
-        public long PriorityId { get; set; }
+        public long? PriorityId { get; set; }
         public Priority Priority { get; set; }
 
         public void UpdateFieldsFromRequest(TaskRequest request)

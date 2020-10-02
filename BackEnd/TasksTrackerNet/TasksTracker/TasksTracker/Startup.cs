@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace TasksTracker
             ConfigureDatabase(services);
             ConfigureCors(services);
             ConfigureDependencies(services);
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers().AddNewtonsoftJson(o =>
             {
                 o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
@@ -63,8 +65,8 @@ namespace TasksTracker
                     {
                         policy.AllowCredentials()
                             .WithOrigins(
-                            "http://localhost:1488",
-                            "https://localhost:1488")
+                            "http://localhost:4300",
+                            "https://localhost:4300")
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                         //policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();

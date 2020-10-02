@@ -4,11 +4,9 @@ import { tap, map } from 'rxjs/operators';
 import { Task } from '../models/task';
 import { Observable } from 'rxjs';
 import { GetTasksParams } from '../models/method-parameters/get-tasks-params';
+import { baseUrl } from '../../core/const/base-url';
 
-
-export const baseUrl = 'http://localhost:3001';
-const taskUrl = `${baseUrl}/task`;
-const tasksUrl = `${taskUrl}s`;
+const tasksUrl = `${baseUrl}/tasks`;
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +16,7 @@ export class TasksHttpService {
   constructor(private httpClient: HttpClient) { }
 
   getTask(taskId: string): Observable<Task> {
-    return this.httpClient.get(`${taskUrl}/${taskId}`)
+    return this.httpClient.get(`${tasksUrl}/${taskId}`)
       .pipe(
         map(task => task as Task),
         tap(task => console.log('task:', task)
@@ -43,7 +41,7 @@ export class TasksHttpService {
   }
 
   createTask(newTask: Task): Observable<Task> {
-    return this.httpClient.post(taskUrl, newTask)
+    return this.httpClient.post(tasksUrl, newTask)
       .pipe(
         map(task => task as Task),
         tap(task => console.log('created task:', task))
@@ -51,7 +49,7 @@ export class TasksHttpService {
   }
 
   updateTask(updatedTask: Task): Observable<Task> {
-    return this.httpClient.put(`${taskUrl}/${updatedTask._id}`, updatedTask)
+    return this.httpClient.put(`${tasksUrl}/${updatedTask._id}`, updatedTask)
       .pipe(
         map(task => task as Task),
         tap(task => console.log('updated task:', task))
@@ -59,7 +57,7 @@ export class TasksHttpService {
   }
 
   deleteTask(taskId: string): Observable<any> {
-    return this.httpClient.delete(`${taskUrl}/${taskId}`)
+    return this.httpClient.delete(`${tasksUrl}/${taskId}`)
       .pipe(
         tap(_ => console.log('deleted taskId:', taskId)),
         map(_ => taskId)
@@ -67,7 +65,7 @@ export class TasksHttpService {
   }
 
   patchTask(taskId: string, patchDocument: { [key: string]: string }): Observable<Task> {
-    return this.httpClient.patch(`${taskUrl}/${taskId}`, patchDocument)
+    return this.httpClient.patch(`${tasksUrl}/${taskId}`, patchDocument)
       .pipe(
         map(task => task as Task),
         tap(task => console.log('patched task:', task))

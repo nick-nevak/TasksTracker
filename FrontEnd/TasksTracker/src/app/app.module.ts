@@ -9,6 +9,8 @@ import { TasksModule } from './tasks/tasks.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { AppCommonModule } from './app-common/app-common.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { EmptyStringInterceptor } from './core/interceptors/empty-string.interceptor';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { AppCommonModule } from './app-common/app-common.module';
     SharedModule,
     AppCommonModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: EmptyStringInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

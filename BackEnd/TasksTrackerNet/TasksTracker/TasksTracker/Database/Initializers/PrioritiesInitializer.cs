@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using TasksTracker.Database.Context;
 using TasksTracker.Interfaces;
@@ -10,7 +11,7 @@ namespace TasksTracker.Database.Initializers
     {
         public void Initialize(DatabaseContext context)
         {
-            context.Database.EnsureCreated();
+            context.Database.Migrate();
             if (context.Priorities.Any()) { return; }
             var priorities = GetPriorities();
             context.Priorities.AddRange(priorities);
