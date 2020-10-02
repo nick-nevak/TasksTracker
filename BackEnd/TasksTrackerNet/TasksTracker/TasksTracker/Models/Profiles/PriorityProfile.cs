@@ -2,18 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TasksTracker.Models.DatabaseModels;
-using TasksTracker.Models.Requests;
 using TasksTracker.Models.Responses;
 
 namespace TasksTracker.Models.Profiles
 {
-    public class TaskProfile : Profile
+    public class PriorityProfile : Profile
     {
-        public TaskProfile()
+        public PriorityProfile()
         {
-            CreateMap<Task, TaskRequest>().ReverseMap();
-            CreateMap<Task, TaskResponse>().ReverseMap();
+            CreateMap<Priority, PriorityResponse>().ReverseMap();
         }
     }
 }

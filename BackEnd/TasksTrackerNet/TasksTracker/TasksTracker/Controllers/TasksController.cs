@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TasksTracker.Database.Context;
 using TasksTracker.Models.Requests;
+using TasksTracker.Models.Responses;
 using Task = TasksTracker.Models.DatabaseModels.Task;
 
 namespace TasksTracker.Controllers
@@ -16,13 +17,13 @@ namespace TasksTracker.Controllers
     public class TasksController : ControllerBase
     {
         private readonly DatabaseContext db;
-        private readonly IMapper mapper;
+        private readonly IMapper _mapper;
 
         public TasksController(DatabaseContext db,
                                IMapper mapper)
         {
             this.db = db;
-            this.mapper = mapper;
+            this._mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -32,42 +33,46 @@ namespace TasksTracker.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Task> Get(bool? includePriority, DateTime? toDate, bool? filterByStatus, bool? filterByDeleted)
+        public IEnumerable<TaskResponse> Get(bool? includePriority, DateTime? toDate, bool? filterByStatus, bool? filterByDeleted)
         {
-            var tasks = db.Tasks.AsQueryable();
+            var query = db.Tasks.AsQueryable();
             if (includePriority == true)
             {
-                tasks = tasks.Include(t => t.Priority);
+                query = query.Include(t => t.Priority);
             }
             if (toDate != null)
             {
-                tasks = tasks.Where(t => t.DueDate <= toDate);
+                query = query.Where(t => t.DueDate <= toDate);
             }
             if (filterByStatus == true)
             {
-                tasks = tasks.Where(t => t.Status == true);
+                query = query.Where(t => t.Status == true);
             }
-            tasks = tasks.Where(t => t.IsDeleted == (filterByDeleted ?? false));
-            return tasks;
+            query = query.Where(t => t.IsDeleted == (filterByDeleted ?? false));
+            var tasks = query.ToList();
+            var results = _mapper.Map<List<TaskResponse>>(tasks);
+            return results;
         }
 
         [HttpPost]
-        public Task Post(TaskRequest createdTask)
+        public TaskResponse Post(TaskRequest createdTask)
         {
             var task = new Task();
             task.UpdateFieldsFromRequest(createdTask);
             db.Add(task);
             db.SaveChanges();
-            return task;
+            var result = _mapper.Map<TaskResponse>(task);
+            return result;
         }
 
         [HttpPut]
-        public Task Put(TaskRequest updatedTask)
+        public TaskResponse Put(TaskRequest updatedTask)
         {
             var task = db.Tasks.SingleOrDefault(t => t.Id == updatedTask.Id);
             task.UpdateFieldsFromRequest(updatedTask);
             db.SaveChanges();
-            return task;
+            var result = _mapper.Map<TaskResponse>(task);
+            return result;
         }
 
         [HttpDelete("{id}")]
