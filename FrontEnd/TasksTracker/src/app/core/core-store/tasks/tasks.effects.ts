@@ -114,14 +114,6 @@ export class TasksEffects {
     );
 
   @Effect()
-  updateTaskSuccess$ = this.actions$
-    .pipe(
-      ofType(updateTaskSuccess),
-      tap(_ => this.router.navigate(['/'])),
-      map(_ => clearSelectedTask())
-    );
-
-  @Effect()
   deleteTask$ = this.actions$
     .pipe(
       ofType(deleteTask),

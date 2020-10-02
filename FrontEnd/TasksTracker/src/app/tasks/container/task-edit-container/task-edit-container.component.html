@@ -2,6 +2,5 @@
   [task]="task$ | async"
   [priorities]="priorities$ | async"
   [isInEditMode]="!!taskId"
-  (fieldUpdated)="onFieldUpdated($event)"
   (formSubmitted)="onFormSubmitted($event)"
 ></app-task-edit-form>

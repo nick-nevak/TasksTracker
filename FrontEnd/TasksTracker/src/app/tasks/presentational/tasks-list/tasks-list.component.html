@@ -3,7 +3,7 @@
     <div
       class="task-item"
       (click)="select(task)"
-      [ngClass]="{'selected-task-item': task?._id === selectedTask?._id}"
+      [ngClass]="{'selected-task-item': task?.id === selectedTask?.id}"
     >
       <div class="left-part">
         <div class="checkbox">

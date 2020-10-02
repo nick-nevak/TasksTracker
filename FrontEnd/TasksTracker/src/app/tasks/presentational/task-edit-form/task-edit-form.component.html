@@ -33,7 +33,7 @@
       <mat-select formControlName="priority">
         <mat-option
           *ngFor="let priority of priorities"
-          [value]="priority._id"
+          [value]="priority.id"
         >
           {{priority.description}}
         </mat-option>

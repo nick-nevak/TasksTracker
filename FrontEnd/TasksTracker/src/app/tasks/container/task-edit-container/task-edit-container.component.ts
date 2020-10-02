@@ -39,24 +39,13 @@ export class TaskEditContainerComponent extends BaseDestroyableComponent impleme
   }
 
   onFieldUpdated(changes: { [key: string]: any }): void {
-    console.log('field update:', changes);
     this.store.dispatch(patchTask({ taskId: this.taskId, patchDocument: changes }));
   }
 
-  onFormSubmitted(formValue): void {
-    if (this.taskId) {
-      formValue._id = this.taskId;
-      this.updateTask(formValue);
-    } else {
-      this.createTask(formValue);
-    }
+  onFormSubmitted(formValue: Task): void {
+    formValue.id = this.taskId;
+    this.store.dispatch(updateTask({ task: formValue }));
   }
-
-  // No need for now
-  // backClicked(): void {
-  //   this.store.dispatch(clearSelectedTask());
-  //   this.router.navigate(['../']);
-  // }
 
   private trackTaskId(): void {
     this.activatedRoute.paramMap.pipe(

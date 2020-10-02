@@ -49,7 +49,7 @@ export class TasksHttpService {
   }
 
   updateTask(updatedTask: Task): Observable<Task> {
-    return this.httpClient.put(`${tasksUrl}/${updatedTask.id}`, updatedTask)
+    return this.httpClient.put(`${tasksUrl}`, updatedTask)
       .pipe(
         map(task => task as Task),
         tap(task => console.log('updated task:', task))

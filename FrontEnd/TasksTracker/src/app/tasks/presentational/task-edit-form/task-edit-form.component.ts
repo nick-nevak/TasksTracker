@@ -18,7 +18,6 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
   @Input() priorities: Priority[];
   @Input() isInEditMode: boolean;
 
-  @Output() fieldUpdated = new EventEmitter<{ [key: string]: any }>();
   @Output() formSubmitted = new EventEmitter<Task>();
 
   @ViewChild('stickyHeader') stickyHeader: ElementRef;
@@ -57,28 +56,18 @@ export class TaskEditFormComponent extends BaseDestroyableComponent implements O
     });
     this.taskForm.get('status').patchValue(false, { emitEvent: false });
     if (this.isInEditMode) {
-      this.trackFieldsChanges();
+      this.trackFormChanges();
     }
   }
 
-  // TODO: move to directive
-  private trackFieldsChanges(): void {
-    Object.keys(this.taskForm.controls)
-      .forEach(formControlName => {
-        this.taskForm.get(formControlName).valueChanges
-          .pipe(this.getPipeForFormControl(formControlName))
-          .subscribe();
-      });
-  }
-
-  // TODO: move to directive
-  private getPipeForFormControl(fieldName: string) {
-    return pipe(
-      withLatestFrom(of(fieldName)),
-      distinctUntilChanged(),
-      debounceTime(500),
-      tap(([value, key]) => this.fieldUpdated.next({ [key]: value })),
-      takeUntil(this.componentAlive$));
+  private trackFormChanges(): void {
+    this.taskForm.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(500),
+        tap(newValue => this.formSubmitted.next(newValue)),
+        takeUntil(this.componentAlive$)
+      ).subscribe();
   }
 
   private calculateViewPortHeight(): void {

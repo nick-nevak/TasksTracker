@@ -7,7 +7,7 @@ export interface PrioritiesState extends EntityState<Priority> {
 }
 
 export const prioritiesAdapter: EntityAdapter<Priority> = createEntityAdapter<Priority>({
-  selectId: (priority: Priority) => priority._id
+  selectId: (priority: Priority) => priority.id
 });
 
 const initialState: PrioritiesState = prioritiesAdapter.getInitialState();
