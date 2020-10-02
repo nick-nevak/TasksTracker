@@ -27,5 +27,10 @@ namespace TasksTracker.Models.DatabaseModels
             IsDeleted = request.IsDeleted;
             PriorityId = request.PriorityId;
         }
+
+        public void MoveToTrash()
+        {
+            IsDeleted = true;
+        }
     }
 }

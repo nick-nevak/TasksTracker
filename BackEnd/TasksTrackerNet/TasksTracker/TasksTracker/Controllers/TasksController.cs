@@ -47,10 +47,7 @@ namespace TasksTracker.Controllers
             {
                 tasks = tasks.Where(t => t.Status == true);
             }
-            if (filterByDeleted == true)
-            {
-                tasks = tasks.Where(t => t.IsDeleted == true);
-            }
+            tasks = tasks.Where(t => t.IsDeleted == (filterByDeleted ?? false));
             return tasks;
         }
 
@@ -73,28 +70,23 @@ namespace TasksTracker.Controllers
             return task;
         }
 
-        // TBD
-        [HttpPatch("{id}")]
-        public Task Patch(Guid id, [FromBody] JsonPatchDocument<TaskRequestTest> updatedTask)
-        {
-            var task = db.Tasks.SingleOrDefault(t => t.Id == id);
-            //updatedTask.ApplyTo(task);
-            //db.SaveChanges();
-            return task;
-        }
-
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public Guid Delete(Guid id)
         {
             var task = db.Tasks.SingleOrDefault(t => t.Id == id);
-            db.Remove(task);
+            task.MoveToTrash();
             db.SaveChanges();
             return id;
         }
-    }
 
-    public class TaskRequestTest
-    {
-        public string Title { get; set; }
+        // TBD
+        [HttpPatch("{id}")]
+        public Task Patch(Guid id, [FromBody] JsonPatchDocument<Task> updatedTask)
+        {
+            var task = db.Tasks.SingleOrDefault(t => t.Id == id);
+            updatedTask.ApplyTo(task);
+            db.SaveChanges();
+            return task;
+        }
     }
 }
