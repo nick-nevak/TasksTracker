@@ -21,10 +21,10 @@ namespace TasksTracker.Migrations
 
             modelBuilder.Entity("TasksTracker.Models.DatabaseModels.Priority", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -39,10 +39,10 @@ namespace TasksTracker.Migrations
 
             modelBuilder.Entity("TasksTracker.Models.DatabaseModels.Task", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -53,8 +53,8 @@ namespace TasksTracker.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("PriorityId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("PriorityId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool?>("Status")
                         .HasColumnType("bit");

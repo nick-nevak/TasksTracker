@@ -27,7 +27,8 @@ namespace TasksTracker
             ConfigureCors(services);
             ConfigureDependencies(services);
             services.AddAutoMapper(typeof(Startup));
-            services.AddControllers().AddNewtonsoftJson(o =>
+            services.AddControllers()
+                .AddNewtonsoftJson(o =>
             {
                 o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
             });

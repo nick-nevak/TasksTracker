@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TasksTracker.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class GuidIdNew : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,7 @@ namespace TasksTracker.Migrations
                 name: "Priority",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
                     Value = table.Column<long>(nullable: false),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -25,14 +24,13 @@ namespace TasksTracker.Migrations
                 name: "Task",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
                     Title = table.Column<string>(nullable: true),
                     Status = table.Column<bool>(nullable: true),
                     DueDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    PriorityId = table.Column<long>(nullable: true)
+                    PriorityId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {

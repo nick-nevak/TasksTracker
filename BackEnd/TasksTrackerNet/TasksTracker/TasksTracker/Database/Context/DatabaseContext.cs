@@ -15,8 +15,12 @@ namespace TasksTracker.Database.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Task>().ToTable("Task");
-            modelBuilder.Entity<Priority>().ToTable("Priority");
+            modelBuilder.Entity<Task>()
+                .ToTable("Task")
+                .Property(t => t.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Priority>()
+                .ToTable("Priority")
+                .Property(p => p.Id).HasDefaultValueSql("NEWID()");
         }
     }
 }

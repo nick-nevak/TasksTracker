@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TasksTracker.Database.Context;
@@ -25,7 +26,7 @@ namespace TasksTracker.Controllers
         }
 
         [HttpGet("{id}")]
-        public Task GetSingle(long id)
+        public Task GetSingle(Guid id)
         {
             return db.Tasks.SingleOrDefault(t => t.Id == id);
         }
@@ -73,17 +74,17 @@ namespace TasksTracker.Controllers
         }
 
         // TBD
-        //[HttpPatch]
-        //public Task Patch(TaskRequest updatedTask)
-        //{
-        //    var task = db.Tasks.SingleOrDefault(t => t.Id == updatedTask.Id);
-        //    task.UpdateFieldsFromRequest(updatedTask);
-        //    db.SaveChanges();
-        //    return task;
-        //}
+        [HttpPatch("{id}")]
+        public Task Patch(Guid id, [FromBody] JsonPatchDocument<TaskRequestTest> updatedTask)
+        {
+            var task = db.Tasks.SingleOrDefault(t => t.Id == id);
+            //updatedTask.ApplyTo(task);
+            //db.SaveChanges();
+            return task;
+        }
 
         [HttpDelete]
-        public long Delete(long id)
+        public Guid Delete(Guid id)
         {
             var task = db.Tasks.SingleOrDefault(t => t.Id == id);
             db.Remove(task);

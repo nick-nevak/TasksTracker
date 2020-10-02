@@ -44,15 +44,15 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
   onTaskStatusUpdated(event: { task: Task, updatedStatus: boolean }): void {
     const { task, updatedStatus } = event;
     const patchDocument = { status: updatedStatus };
-    this.store.dispatch(patchTask({ taskId: task._id, patchDocument }));
+    this.store.dispatch(patchTask({ taskId: task.id, patchDocument }));
   }
 
   onTaskSelected(task: Task): void {
-    this.router.navigate(['./', task._id], { relativeTo: this.activatedRoute });
+    this.router.navigate(['./', task.id], { relativeTo: this.activatedRoute });
   }
 
   onTaskDeleted(task: Task): void {
-    this.store.dispatch(deleteTask({ taskId: task._id }));
+    this.store.dispatch(deleteTask({ taskId: task.id }));
   }
 
   private trackUrlChangesAndLoadTasks(): void {

@@ -49,7 +49,7 @@ export class TasksHttpService {
   }
 
   updateTask(updatedTask: Task): Observable<Task> {
-    return this.httpClient.put(`${tasksUrl}/${updatedTask._id}`, updatedTask)
+    return this.httpClient.put(`${tasksUrl}/${updatedTask.id}`, updatedTask)
       .pipe(
         map(task => task as Task),
         tap(task => console.log('updated task:', task))
@@ -65,7 +65,14 @@ export class TasksHttpService {
   }
 
   patchTask(taskId: string, patchDocument: { [key: string]: string }): Observable<Task> {
-    return this.httpClient.patch(`${tasksUrl}/${taskId}`, patchDocument)
+    const patchRequest = [
+      {
+        'op': 'replace',
+        'path': '/Title',
+        'value': 'titlePatch22'
+      }
+    ];
+    return this.httpClient.patch(`${tasksUrl}/${taskId}`, patchRequest)
       .pipe(
         map(task => task as Task),
         tap(task => console.log('patched task:', task))

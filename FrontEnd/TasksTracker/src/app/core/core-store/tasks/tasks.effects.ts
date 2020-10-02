@@ -98,8 +98,8 @@ export class TasksEffects {
         const isTaskAlreadySelected = !!routeParams.id;
         // TODO use selected task from state
         const urlToNavigate = isTaskAlreadySelected
-          ? currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1) + task._id
-          : `${currentUrl}/${task._id}`;
+          ? currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1) + task.id
+          : `${currentUrl}/${task.id}`;
         this.router.navigateByUrl(urlToNavigate);
       }),
       // tap(({ task }) => this.router.navigate(['./', task._id], { relativeTo: this.activatedRoute }))
