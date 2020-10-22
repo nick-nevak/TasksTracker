@@ -1,16 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Input, Output, EventEmitter, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
-import { BaseDestroyableComponent } from '../../../core/base-classes/base-destroyable';
-import { AppState } from '../../../core/core-store/core-store.module';
-import { Store } from '@ngrx/store';
-import { loadTasks, deleteTask, patchTask } from '../../../core/core-store/tasks/tasks.actions';
-import { selectTasks, selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Component, ViewChild, ElementRef, Input, Output, EventEmitter, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { Task } from 'src/app/core/models/task';
 import { Priority } from 'src/app/core/models/priority';
-import { selectPrioritiesDictionary } from 'src/app/core/core-store/priorities/priorities.selectors';
 import { Dictionary } from '@ngrx/entity';
-import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.actions';
 
 @Component({
   selector: 'app-tasks-screen',
