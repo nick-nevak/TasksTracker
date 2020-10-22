@@ -1,16 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { takeUntil, tap, filter, take } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntil, tap } from 'rxjs/operators';
 import { BaseDestroyableComponent } from 'src/app/core/base-classes/base-destroyable';
-import { AppState } from '../../../core/core-store/core-store.module';
-import { Store } from '@ngrx/store';
-import { createTask, updateTask, loadTask, clearSelectedTask, patchTask } from '../../../core/core-store/tasks/tasks.actions';
-import { selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
-import { selectPriorities } from '../../../core/core-store/priorities/priorities.selectors';
 import { Observable } from 'rxjs';
 import { Task } from 'src/app/core/models/task';
 import { Priority } from 'src/app/core/models/priority';
-import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.actions';
+import { TaskQuery } from '../../state/taks/task.query';
+import { TasksService } from '../../services/tasks.service';
+import { PriorityQuery } from '../../state/priority/priority.query';
+import { PrioritiesService } from '../../services/priorities.service';
+import { TaskStore } from '../../state/taks/task.store';
 
 @Component({
   selector: 'app-task-edit-container',
@@ -19,12 +18,16 @@ import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.ac
 })
 export class TaskEditContainerComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
 
-  task$: Observable<Task> = this.store.select(selectSelectedTask);
-  priorities$: Observable<Priority[]> = this.store.select(selectPriorities);
+  task$: Observable<Task> = this.taskQuery.selected$;
+  priorities$: Observable<Priority[]> = this.prioritiesQuery.all$;
   taskId: string;
 
-  constructor(private store: Store<AppState>,
-              private activatedRoute: ActivatedRoute) {
+  constructor(private taskQuery: TaskQuery,
+              private tasksService: TasksService,
+              private prioritiesQuery: PriorityQuery,
+              private prioritiesService: PrioritiesService,
+              private activatedRoute: ActivatedRoute,
+              private taskStore: TaskStore) {
     super();
   }
 
@@ -35,12 +38,12 @@ export class TaskEditContainerComponent extends BaseDestroyableComponent impleme
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.store.dispatch(clearSelectedTask());
+    this.taskStore.update({ selectedTask: null });
   }
 
   onFieldUpdated(changes: { [key: string]: any }): void {
     console.log('field update:', changes);
-    this.store.dispatch(patchTask({ taskId: this.taskId, patchDocument: changes }));
+    this.tasksService.patchTask(this.taskId, changes).subscribe();
   }
 
   onFormSubmitted(formValue): void {
@@ -69,19 +72,19 @@ export class TaskEditContainerComponent extends BaseDestroyableComponent impleme
   }
 
   private getPriorities(): void {
-    this.store.dispatch(loadPriorities());
+    this.prioritiesService.getPriorities().subscribe();
   }
 
   private getTask(taskId: string): void {
-    this.store.dispatch(loadTask({ taskId }));
+    this.tasksService.getTask(taskId).subscribe();
   }
 
   private createTask(task: Task): void {
-    this.store.dispatch(createTask({ task }));
+    this.tasksService.createTask(task);
   }
 
   private updateTask(task: Task): void {
-    this.store.dispatch(updateTask({ task }));
+    this.tasksService.updateTask(task);
   }
 
 }

@@ -1,18 +1,15 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BaseDestroyableComponent } from '../../../core/base-classes/base-destroyable';
-import { AppState } from '../../../core/core-store/core-store.module';
-import { Store } from '@ngrx/store';
-import { deleteTask, patchTask, createTask, loadWeekTasks, loadTodayTasks, loadCompletedTasks, loadTrashTasks, loadAllTasks } from '../../../core/core-store/tasks/tasks.actions';
-import { selectTasks, selectSelectedTask } from '../../../core/core-store/tasks/tasks.selectors';
 import { Observable } from 'rxjs';
-import { Router, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Task } from 'src/app/core/models/task';
 import { Priority } from 'src/app/core/models/priority';
-import { selectPrioritiesDictionary } from 'src/app/core/core-store/priorities/priorities.selectors';
-import { Dictionary } from '@ngrx/entity';
-import { loadPriorities } from 'src/app/core/core-store/priorities/priorities.actions';
 import { tap, filter, map, takeUntil } from 'rxjs/operators';
 import { TasksFilter } from 'src/app/core/models/enums/tasks-filter';
+import { TaskQuery } from '../../state/taks/task.query';
+import { PriorityQuery } from '../../state/priority/priority.query';
+import { PrioritiesService } from '../../services/priorities.service';
+import { TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-tasks-screen-container',
@@ -21,12 +18,15 @@ import { TasksFilter } from 'src/app/core/models/enums/tasks-filter';
 })
 export class TasksScreenContainerComponent extends BaseDestroyableComponent implements OnInit, OnDestroy {
 
-  tasks$: Observable<Task[]> = this.store.select(selectTasks);
-  priorities$: Observable<Dictionary<Priority>> = this.store.select(selectPrioritiesDictionary);
-  selectedTask$: Observable<Task> = this.store.select(selectSelectedTask);
+  tasks$: Observable<Task[]> = this.taskQuery.tasks$;
+  priorities$: Observable<Map<string, Priority>> = this.prioritiesQuery.dictionary$;
+  selectedTask$: Observable<Task> = this.taskQuery.selected$;
 
   constructor(
-    private store: Store<AppState>,
+    private taskQuery: TaskQuery,
+    private tasksService: TasksService,
+    private prioritiesQuery: PriorityQuery,
+    private prioritiesService: PrioritiesService,
     private router: Router,
     private activatedRoute: ActivatedRoute) {
     super();
@@ -34,17 +34,17 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
 
   ngOnInit(): void {
     this.trackUrlChangesAndLoadTasks();
-    this.store.dispatch(loadPriorities());
+    this.prioritiesService.getPriorities().subscribe();
   }
 
   onTaskCreated(task: Task): void {
-    this.store.dispatch(createTask({ task }));
+    this.tasksService.createTask(task).subscribe();
   }
 
   onTaskStatusUpdated(event: { task: Task, updatedStatus: boolean }): void {
     const { task, updatedStatus } = event;
     const patchDocument = { status: updatedStatus };
-    this.store.dispatch(patchTask({ taskId: task._id, patchDocument }));
+    this.tasksService.patchTask(task._id, patchDocument);
   }
 
   onTaskSelected(task: Task): void {
@@ -52,7 +52,7 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
   }
 
   onTaskDeleted(task: Task): void {
-    this.store.dispatch(deleteTask({ taskId: task._id }));
+    this.tasksService.deleteTask(task._id);
   }
 
   private trackUrlChangesAndLoadTasks(): void {
@@ -68,19 +68,19 @@ export class TasksScreenContainerComponent extends BaseDestroyableComponent impl
   private loadTasksAccordingToCurrentPath(path: string): void {
     switch (path) {
       case TasksFilter.All:
-        this.store.dispatch(loadAllTasks());
+        this.tasksService.getTasks({}).subscribe();
         break;
       case TasksFilter.Week:
-        this.store.dispatch(loadWeekTasks());
+        // this.store.dispatch(loadWeekTasks());
         break;
       case TasksFilter.Today:
-        this.store.dispatch(loadTodayTasks());
+        // this.store.dispatch(loadTodayTasks());
         break;
       case TasksFilter.Completed:
-        this.store.dispatch(loadCompletedTasks());
+        // this.store.dispatch(loadCompletedTasks());
         break;
       case TasksFilter.Trash:
-        this.store.dispatch(loadTrashTasks());
+        // this.store.dispatch(loadTrashTasks());
         break;
     }
   }
