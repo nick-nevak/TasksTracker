@@ -9,6 +9,10 @@ import { TasksModule } from './tasks/tasks.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { AppCommonModule } from './app-common/app-common.module';
+import { NG_ENTITY_SERVICE_CONFIG } from '@datorama/akita-ng-entity-service';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -22,9 +26,10 @@ import { AppCommonModule } from './app-common/app-common.module';
     TasksModule,
     CoreModule,
     SharedModule,
-    AppCommonModule
+    AppCommonModule,
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    AkitaNgRouterStoreModule.forRoot()
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

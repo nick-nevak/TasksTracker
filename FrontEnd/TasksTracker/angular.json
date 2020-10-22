@@ -129,6 +129,7 @@
   },
   "defaultProject": "StudyTracker",
   "cli": {
-    "analytics": "03e47f3f-f474-4866-86f5-0ed7a483dba1"
+    "analytics": "03e47f3f-f474-4866-86f5-0ed7a483dba1",
+    "defaultCollection": "@datorama/akita"
   }
 }
